@@ -49,7 +49,7 @@ npm run export:notes     # speaker notes
 
 | What | Where |
 |---|---|
-| Cover (session label, date), title slide, section order | `slides.md` (cover layout: `layouts/institution-cover.vue`) |
+| Cover (session label, date, programme line, event band), title slide, section order | `slides.md` (cover layout: `layouts/institution-cover.vue`) |
 | Slides, one file per section | `pages/01-problem.md` … `pages/07-responsible.md`; Sources appendix `pages/99-sources.md` |
 | Interactive artifacts | `components/s1` … `components/s7`; shared parts in `components/ui` |
 | Real image assets (derived, small) | `data/imaging/` (built by `notebook/prepare_deck_assets.py`) |

@@ -20,6 +20,9 @@ layout: institution-cover
 session: ''
 heading: 'Multimodal AI Models for Medical Imaging Analysis'
 date: ''
+# The event (E&ICT Academy IIT Roorkee course page, course code EICTIITR-FDP-6H7-16).
+programme: 'Faculty Development Programme on AI in Healthcare and Medical Imaging'
+band: 'E&ICT Academy, IIT Roorkee (MeitY initiative)  ·  Hosted by SST, SRHU, Dehradun  ·  3–7 November 2026'
 chrome: false
 ---
 
