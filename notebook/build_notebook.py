@@ -40,7 +40,7 @@ Companion to the FDP session *Multimodal AI Models for Medical Imaging Analysis*
 import os, subprocess, sys
 if 'google.colab' in sys.modules and not os.path.exists('download_data.py'):
     if not os.path.exists('multimodal-medical-imaging'):
-        subprocess.run(['git', 'clone', '--depth', '1', 'https://github.com/TechieTripathi/multimodal-medical-imaging.git'], check=True)
+        subprocess.run(['git', 'clone', '--depth', '1', 'https://github.com/drneelmani/multimodal-medical-imaging.git'], check=True)
     os.chdir('multimodal-medical-imaging/notebook')
     subprocess.run([sys.executable, '-m', 'pip', 'install', '-q', 'pydicom', 'SimpleITK', 'nibabel', 'open_clip_torch', 'TotalSegmentator'], check=True)
     subprocess.run([sys.executable, 'download_data.py'], check=True)
@@ -444,7 +444,7 @@ print('saved ../data/runs/notebook.json')"""),
 
 
 COLAB_NB = os.path.join(HERE, 'dicom-analysis-colab.ipynb')
-COLAB_URL = 'https://colab.research.google.com/github/TechieTripathi/multimodal-medical-imaging/blob/main/notebook/'
+COLAB_URL = 'https://colab.research.google.com/github/drneelmani/multimodal-medical-imaging/blob/main/notebook/'
 
 
 def colab_cells():
@@ -470,7 +470,7 @@ if os.path.exists('../public/dicom'):                 # running inside the proje
     PACK = '../public/dicom'
 else:                                                 # Colab, or anywhere else: fetch the project
     if not os.path.exists('multimodal-medical-imaging'):
-        subprocess.run(['git', 'clone', '--depth', '1', 'https://github.com/TechieTripathi/multimodal-medical-imaging.git'], check=True)
+        subprocess.run(['git', 'clone', '--depth', '1', 'https://github.com/drneelmani/multimodal-medical-imaging.git'], check=True)
     PACK = 'multimodal-medical-imaging/public/dicom'
 subprocess.run([sys.executable, '-m', 'pip', 'install', '-q', 'pydicom', 'SimpleITK'], check=True)
 import numpy as np

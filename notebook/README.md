@@ -14,8 +14,8 @@ Times were measured on an NVIDIA RTX PRO 4000 Blackwell (24 GB) and its host CPU
 
 ## Run in Google Colab
 
-* [**DICOM analysis**](https://colab.research.google.com/github/TechieTripathi/multimodal-medical-imaging/blob/main/notebook/dicom-analysis-colab.ipynb) (`dicom-analysis-colab.ipynb`): Workflows A, D and E plus the four readers' 3D outlines. No GPU; about 2 minutes. It clones this repository for the sample pack and downloads the patient's CT and SEG from TCIA.
-* [**Full notebook**](https://colab.research.google.com/github/TechieTripathi/multimodal-medical-imaging/blob/main/notebook/multimodal-medical-imaging.ipynb): choose *Runtime → Change runtime type → GPU*. The setup cell clones the repository, installs pydicom, SimpleITK, open_clip and TotalSegmentator, and runs `download_data.py` (about 5 minutes before the first workflow).
+* [**DICOM analysis**](https://colab.research.google.com/github/drneelmani/multimodal-medical-imaging/blob/main/notebook/dicom-analysis-colab.ipynb) (`dicom-analysis-colab.ipynb`): Workflows A, D and E plus the four readers' 3D outlines. No GPU; about 2 minutes. It clones this repository for the sample pack and downloads the patient's CT and SEG from TCIA.
+* [**Full notebook**](https://colab.research.google.com/github/drneelmani/multimodal-medical-imaging/blob/main/notebook/multimodal-medical-imaging.ipynb): choose *Runtime → Change runtime type → GPU*. The setup cell clones the repository, installs pydicom, SimpleITK, open_clip and TotalSegmentator, and runs `download_data.py` (about 5 minutes before the first workflow).
 
 Both use only public, de-identified data. Don't upload hospital files to Colab.
 

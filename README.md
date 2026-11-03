@@ -8,8 +8,8 @@ The deck follows one real, de-identified patient (LIDC-IDRI-0001: a chest CT, a 
 
 | Notebook | What it runs | Needs |
 |---|---|---|
-| [DICOM analysis](https://colab.research.google.com/github/TechieTripathi/multimodal-medical-imaging/blob/main/notebook/dicom-analysis-colab.ipynb) | Load the CT, window it, read six modalities, PET SUV, nodule measurements from DICOM SEG, metadata audit | No GPU; about 2 minutes |
-| [Full notebook](https://colab.research.google.com/github/TechieTripathi/multimodal-medical-imaging/blob/main/notebook/multimodal-medical-imaging.ipynb) | All five workflows, including BiomedCLIP, TotalSegmentator and MedSAM | GPU runtime; first run downloads data and model weights (about 5–10 minutes) |
+| [DICOM analysis](https://colab.research.google.com/github/drneelmani/multimodal-medical-imaging/blob/main/notebook/dicom-analysis-colab.ipynb) | Load the CT, window it, read six modalities, PET SUV, nodule measurements from DICOM SEG, metadata audit | No GPU; about 2 minutes |
+| [Full notebook](https://colab.research.google.com/github/drneelmani/multimodal-medical-imaging/blob/main/notebook/multimodal-medical-imaging.ipynb) | All five workflows, including BiomedCLIP, TotalSegmentator and MedSAM | GPU runtime; first run downloads data and model weights (about 5–10 minutes) |
 
 The deck's demo slides have the same links as orange buttons, and QR codes on the "Five workflows" and "What to take home" slides. Both notebooks use only public, de-identified data; don't upload hospital files to Colab.
 
