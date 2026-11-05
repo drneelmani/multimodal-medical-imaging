@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { SECTIONS } from '../../data/sections'
 
-// Slide 8 — the seven parts, each with the one question it answers.
+// Slide 2 (the agenda, right after the title) — the seven parts, each with the one question it answers.
 const QUESTIONS: Record<number, string> = {
   1: 'Why combine images with words and data?',
   2: 'How does a computer read an X-ray and a report?',

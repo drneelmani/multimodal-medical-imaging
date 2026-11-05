@@ -31,8 +31,28 @@ links: [lidc]
 **Try / Notice:** Nothing to click yet. Point to the three pieces of evidence.
 **Ask:** Quick show of hands: who here works mostly with images, who mostly with text or data, and who with both?
 **Caveat:** The patient is from LIDC-IDRI, a de-identified public research collection; no clinical history is available for them.
-**Transition:** Let's start with the problem every clinician already solves.
+**Transition:** Before we start, here is the plan for the two hours.
 **Sources:** lidc2015data — the patient's images and annotations.
+-->
+
+---
+section: 1
+---
+
+# Seven questions in two hours
+
+<Roadmap />
+
+<!--
+**Time:** ~0.5 min
+**Objective:** Give the audience the map.
+**Say:** Here is the plan: seven questions, in this order. First, why combine images with words and patient data at all. Then how a computer reads an X-ray and a report. How models are trained and tested. How medical images are actually stored, which is DICOM. Where this is used today. Then we run real models on real data. And finally what can go wrong and who is responsible.
+**Example:** The times on the right are a promise: we will stop for questions at the end.
+**Try / Notice:** None.
+**Ask:** Which of the seven questions matters most for your own work? Keep it in mind; we will come back to it.
+**Caveat:** None.
+**Transition:** So, question one: why would a computer need more than the image?
+**Sources:** None — roadmap.
 -->
 
 ---
@@ -217,26 +237,6 @@ links: [lidc]
 **Try / Notice:** Toggle the evidence on and off with the buttons to show what each piece contributes.
 **Ask:** Predict, then reveal: which answer would you trust more, image only or image plus report? Why?
 **Caveat:** The sentences are written by us to summarise each source; they are not the output of an AI model. The ratings come from the real reports.
-**Transition:** Here is the plan for the rest of the session.
+**Transition:** That answers question one. Question two: how does a computer actually read an X-ray and a report?
 **Sources:** lidc2015data — CT; fedorov2018lidcdicom — the four readers' ratings.
--->
-
----
-section: 1
----
-
-# Seven questions in two hours
-
-<Roadmap />
-
-<!--
-**Time:** ~0.5 min
-**Objective:** Give the audience the map.
-**Say:** We will answer seven questions in order. Why combine images with words and data, which we just did. How a computer reads an X-ray and a report. How models are trained and tested. How medical images are actually stored, which is DICOM. Where this is used today. Then we run real models on real data. And finally what can go wrong and who is responsible.
-**Example:** The times on the right are a promise: we will stop for questions at the end.
-**Try / Notice:** None.
-**Ask:** None.
-**Caveat:** None.
-**Transition:** Let's start with how a computer reads an image.
-**Sources:** None — roadmap.
 -->
