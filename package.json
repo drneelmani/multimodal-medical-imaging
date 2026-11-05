@@ -9,6 +9,7 @@
     "export": "slidev export --with-clicks --timeout 90000 --output exports/multimodal-medical-imaging-all-steps.pdf",
     "export:handout": "slidev export --timeout 90000 --output exports/multimodal-medical-imaging-handout.pdf",
     "export:notes": "slidev export-notes --output exports/speaker-notes.pdf",
+    "export:pptx": "node scripts/export-pptx.mjs 3030",
     "check": "node scripts/check-deck.mjs && node --experimental-strip-types scripts/check-timing.mjs",
     "check:urls": "node scripts/check-urls.mjs"
   },

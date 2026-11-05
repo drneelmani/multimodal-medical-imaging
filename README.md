@@ -45,7 +45,10 @@ Fonts, images, data and model outputs are bundled; no network is needed. The liv
 npm run export           # every click state, one page each
 npm run export:handout   # each slide once, final state
 npm run export:notes     # speaker notes
+npm run export:pptx      # editable PowerPoint (needs `npm run dev` running on port 3030)
 ```
+
+The PowerPoint copy (`exports/multimodal-medical-imaging.pptx`) has every text block as an editable text box, images as separate pictures, and the speaker notes in the notes pane. Each slide shows its final click state; interactive parts (sliders, viewer, zoom) become still images. For a different port: `node scripts/export-pptx.mjs <port>`.
 
 ## Edit
 
