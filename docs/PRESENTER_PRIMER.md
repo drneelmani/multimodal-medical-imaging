@@ -35,7 +35,7 @@ For a presenter from computer science. Each slide's speaker notes have a **Backg
 - Mammogram views: **CC** (cranio-caudal, from above) and **MLO** (medio-lateral oblique, from the side at an angle).
 
 **Scanners and images**
-- **X-ray**: one shadow picture. **CT**: X-rays from all round, computed into slices in HU. **MRI**: magnet and radio waves, no radiation, no standard units. **Ultrasound**: sound echoes, live; **B-mode** = normal greyscale; **CEUS** = with microbubble contrast; **cine** = a video loop. **PET**: shows where a radioactive tracer collects. **Mammogram**: low-dose breast X-ray. **Fundus photo**: the back of the eye. **H&E pathology**: tissue stained purple (nuclei) and pink.
+- **X-ray**: one projection image. **CT**: X-rays from all round, computed into slices in HU. **MRI**: magnet and radio waves, no radiation, no standard units. **Ultrasound**: sound echoes, live; **B-mode** = normal greyscale; **CEUS** = with microbubble contrast; **cine** = a video loop. **PET**: shows where a radioactive tracer collects. **Mammogram**: low-dose breast X-ray. **Fundus photo**: the back of the eye. **H&E pathology**: tissue stained purple (nuclei) and pink.
 - **MRI sequences**: **T1** (fat bright, water dark; anatomy), **T1 + contrast** (gadolinium shows where the blood–brain barrier is broken: the tumour's edge), **T2** (water bright), **FLAIR** (T2 with normal brain fluid made dark, so swelling stands out).
 - **FDG**: glucose carrying radioactive fluorine-18; cancer cells use more glucose. Normal high uptake: brain, heart, kidneys, bladder (FDG leaves in the urine).
 - **MIP** (maximum-intensity projection): for each line of sight the brightest value is kept; a whole-body summary that does not change with the slice.

@@ -62,7 +62,7 @@ section: 1
 
 # Why would a computer need more than the image?
 
-<p>Clinicians never read a scan on its own. Should AI?</p>
+<p>Clinicians never interpret a scan on its own. Should AI?</p>
 
 <!--
 **Time:** ~0.5 min
@@ -120,8 +120,8 @@ links: [lidc, upenn, crc, hc18, fives]
 <!--
 **Time:** ~1.5 min
 **Objective:** Recognise the main imaging modalities and that they are stored differently.
-**Background:** X-ray: one shadow picture; bone stops X-rays (white), air lets them through (black). CT (computed tomography): X-rays from all round the body, computed into thin slices, values in Hounsfield units. MRI: strong magnet and radio waves, no radiation; contrast depends on the 'sequence'. Ultrasound: high-frequency sound echoes, live, no radiation. Pathology: microscope photos of tissue stained pink and purple (H&E). Fundus photo: a camera picture of the back of the eye (retina). PET (later): shows where a radioactive sugar collects.
-**Say:** X-ray: a shadow picture, low-cost and fast. [click] CT: many X-ray slices stacked into a 3D volume, which is our patient. [click] MRI uses magnetism instead of radiation and can show the same tissue with different contrasts. [click] Ultrasound uses sound echoes and is live; this one is a baby's head. [click] Pathology: thin slices of tissue, stained and photographed under a microscope. [click] And the retina, photographed through the pupil. [click] Notice the stamps: radiology images are usually stored as DICOM, the hospital standard we will open up in Part 4. Microscope slides and eye photos often are not.
+**Background:** X-ray: one projection image; bone stops X-rays (white), air lets them through (black). CT (computed tomography): X-rays from all round the body, computed into thin slices, values in Hounsfield units. MRI: strong magnet and radio waves, no radiation; contrast depends on the 'sequence'. Ultrasound: high-frequency sound echoes, live, no radiation. Pathology: microscope photos of tissue stained pink and purple (H&E). Fundus photo: a camera picture of the back of the eye (retina). PET (later): shows where a radioactive sugar collects.
+**Say:** X-ray: a single projection image, low-cost and fast. [click] CT: many X-ray slices stacked into a 3D volume, which is our patient. [click] MRI uses magnetism instead of radiation and can show the same tissue with different contrasts. [click] Ultrasound uses sound echoes and is live; this one is a baby's head. [click] Pathology: thin slices of tissue, stained and photographed under a microscope. [click] And the retina, photographed through the pupil. [click] Notice the stamps: radiology images are usually stored as DICOM, the hospital standard we will open up in Part 4. Microscope slides and eye photos often are not.
 **Example:** All six images in this gallery come from public, openly licensed research datasets, and you will see several of them again later.
 **Try / Notice:** Click any tile to enlarge it and see its source and licence.
 **Ask:** Which of these do you work with?
@@ -138,7 +138,7 @@ tag: teaching
 ---
 
 ::title::
-# Clinicians join images, words and the patient
+# Clinicians combine images, reports and history
 
 ::default::
 <ClinicianFlow />
@@ -223,7 +223,7 @@ links: [lidc]
 ---
 
 ::title::
-# Each kind of evidence adds a different answer
+# Image, report and history each add information
 
 ::default::
 <UniMultiCompare />

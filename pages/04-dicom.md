@@ -5,7 +5,7 @@ section: 4
 
 # How are medical images stored?
 
-<p>DICOM: the hospital format that keeps pixels, units, position and the patient together.</p>
+<p>DICOM, the standard hospital file format, stores the image with its units, position and patient details.</p>
 
 <!--
 **Time:** ~0.5 min
@@ -27,7 +27,7 @@ links: [lidc]
 ---
 
 ::title::
-# A DICOM file carries the facts, not just the picture
+# A DICOM file stores the image and facts about it
 
 ::default::
 <DicomVsPng />
@@ -56,7 +56,7 @@ links: [lidc]
 ---
 
 ::title::
-# Patient, study, series, file
+# DICOM levels: patient, study, series, file
 
 ::default::
 <DicomHierarchy />
@@ -85,7 +85,7 @@ links: [lidc]
 ---
 
 ::title::
-# Inside a file: who, how, where, and how to read it
+# What the tags in a DICOM file record
 
 ::default::
 <DicomTags />
@@ -143,7 +143,7 @@ links: [lidc]
 ---
 
 ::title::
-# Stored numbers become real units
+# Stored pixel values are converted to real units
 
 ::default::
 <StoredVsDisplayed />
@@ -172,7 +172,7 @@ links: [lidc]
 ---
 
 ::title::
-# Windowing decides what you can see
+# Windowing controls which tissues are visible
 
 ::default::
 <WindowingSlider />
@@ -201,7 +201,7 @@ links: [lidc]
 ---
 
 ::title::
-# Slices stack into a volume, in the right order
+# Slices sorted by position form a 3D volume
 
 ::default::
 <VolumeExplorer />
@@ -259,7 +259,7 @@ links: [liverus]
 ---
 
 ::title::
-# An ultrasound file is a video
+# An ultrasound file can contain a video
 
 ::default::
 <UltrasoundCine />
@@ -288,7 +288,7 @@ links: [cmmd]
 ---
 
 ::title::
-# A mammogram file knows which side; the table knows the rest
+# A mammogram file and its clinical table
 
 ::default::
 <MammoTags />
@@ -317,7 +317,7 @@ links: [petct]
 ---
 
 ::title::
-# PET values become SUV using the file’s own tags
+# PET values converted to SUV using the file’s tags
 
 ::default::
 <SuvFromTags />
@@ -346,7 +346,7 @@ links: [lidc, biomedclip]
 ---
 
 ::title::
-# Every preparation step keeps something and loses something
+# What each preparation step keeps and loses
 
 ::default::
 <PrepPipeline />

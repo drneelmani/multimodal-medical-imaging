@@ -5,7 +5,7 @@ section: 2
 
 # How does a computer read an X-ray and a report?
 
-<p>Everything becomes numbers. The key is making the numbers for a picture and its description agree.</p>
+<p>Images and text both become numbers. The model learns to make the numbers for an image and its description match.</p>
 
 <!--
 **Time:** ~0.5 min
@@ -116,7 +116,7 @@ links: [biomedclip]
 ---
 
 ::title::
-# Every image becomes a fingerprint of numbers
+# Each image becomes an embedding: a list of numbers
 
 ::default::
 <EmbeddingMap />
@@ -142,7 +142,7 @@ tag: teaching
 ---
 
 ::title::
-# Two encoders, one shared space
+# Images and text are mapped into one shared space
 
 ::default::
 <SharedSpace />
@@ -172,7 +172,7 @@ links: [iu, biomedclip, clip]
 ---
 
 ::title::
-# Training compares many pairs at once
+# Training matches each image with its own report
 
 ::default::
 <ContrastiveMatrix />
@@ -229,7 +229,7 @@ sources: [vaswani2017attention, alayrac2022flamingo]
 ---
 
 ::title::
-# Attention: each word looks at the image
+# Cross-attention: words focus on parts of the image
 
 ::default::
 <CrossAttention />
@@ -256,7 +256,7 @@ sources: [huang2020fusion]
 ---
 
 ::title::
-# Where the data meet: early, middle or late
+# Fusion: combining data early, midway or late
 
 ::default::
 <FusionBuilder />
@@ -283,7 +283,7 @@ sources: [huang2020fusion]
 ---
 
 ::title::
-# Numbers from the record need care
+# Patient record data must be prepared carefully
 
 ::default::
 <StructuredData />

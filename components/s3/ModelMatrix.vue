@@ -11,7 +11,7 @@ const { step } = useStep(3)
 interface M { name: string, io: string, lic: string, model: string, data: string, card: [string, string][] }
 const TASKS: { task: string, models: M[] }[] = [
   { task: 'Match images and text', models: [
-    { name: 'BiomedCLIP', model: 'biomedclip', data: 'pmc15m', io: 'image + text → similarity', lic: 'MIT', card: [['Trained on', '15 million figure–caption pairs from PubMed Central'], ['Good for', 'Search, zero-shot labels, fingerprints for other models'], ['Limits', 'Scores are not probabilities; figures differ from clinical images']] },
+    { name: 'BiomedCLIP', model: 'biomedclip', data: 'pmc15m', io: 'image + text → similarity', lic: 'MIT', card: [['Trained on', '15 million figure–caption pairs from PubMed Central'], ['Good for', 'Search, zero-shot labels, embeddings for other models'], ['Limits', 'Scores are not probabilities; figures differ from clinical images']] },
     { name: 'MedCLIP', model: 'medclip', data: 'mimiccxr', io: 'chest X-ray + text → similarity', lic: 'none stated', card: [['Trained on', 'Chest X-rays and texts that need not be paired'], ['Good for', 'Learning from smaller medical datasets'], ['Limits', 'Chest X-ray only; research code']] },
   ] },
   { task: 'Find conditions', models: [
@@ -69,7 +69,7 @@ tr.sel td { background: var(--accent-tint); }
 .row-enter-active { transition: opacity var(--dur) var(--ease); }
 .row-enter-from { opacity: 0; }
 .card :deep(.mc) { grid-template-columns: 100px 1fr; }
-.mlink { color: inherit !important; border-bottom: none !important; text-decoration: none !important; }
+.mlink { white-space: nowrap; color: inherit !important; border-bottom: none !important; text-decoration: none !important; }
 .mlink:hover strong { text-decoration: underline; }
 .go { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 10px 0 0; font-size: 15px; }
 .go a { border-bottom: none !important; }

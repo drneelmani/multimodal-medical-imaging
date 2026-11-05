@@ -5,7 +5,7 @@ section: 7
 
 # What can go wrong, and who is responsible?
 
-<p>Data, shift, privacy and checking. Most failures are not in the model.</p>
+<p>Imperfect data, scanner changes, privacy, and checking AI output. Most failures come from the data, not the model.</p>
 
 <!--
 **Time:** ~0.5 min
@@ -107,7 +107,7 @@ links: [lidc]
 ---
 
 ::title::
-# Check every sentence against the evidence
+# Check each sentence of a generated report
 
 ::default::
 <ReportClaimChecker />
@@ -130,7 +130,7 @@ section: 7
 clicks: 1
 ---
 
-# What to take home
+# Key takeaways
 
 <Takeaways />
 

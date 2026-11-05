@@ -12,7 +12,7 @@ const textMissing = ref(false)
 const INPUTS = [{ y: 30, t: 'Image' }, { y: 125, t: 'Text' }, { y: 220, t: 'Numbers' }]
 const note = computed(() => ({
   early: { what: 'Join the raw inputs, then one model learns everything.', missing: 'A blank input the model never saw in training: answers become unreliable.' },
-  intermediate: { what: 'Each input gets its own encoder; their fingerprints are joined.', missing: 'The missing fingerprint can be masked out; the others still work.' },
+  intermediate: { what: 'Each input gets its own encoder; their embeddings are joined.', missing: 'The missing embedding can be masked out; the others still work.' },
   late: { what: 'Separate models each answer; the answers are combined.', missing: 'Simply drop one vote, but the models never learned from each other.' },
 }[mode.value]))
 const dim = (i: number) => textMissing.value && i === 1

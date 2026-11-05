@@ -13,12 +13,12 @@ import meta from '../../data/imaging/gallery/meta.json'
 // Clicking a tile enlarges it. clicks: 6
 const { step } = useStep(6)
 const tiles = [
-  { key: 'xray', name: 'X-ray', what: 'Shadows of the body', src: xray, dicom: true },
-  { key: 'ct', name: 'CT', what: 'X-ray slices, a 3D stack', src: ct, dicom: true },
-  { key: 'mri', name: 'MRI', what: 'Magnetism, many contrasts', src: mri, dicom: true },
-  { key: 'ultrasound', name: 'Ultrasound', what: 'Sound echoes, live', src: us, dicom: true },
-  { key: 'pathology', name: 'Pathology', what: 'Stained tissue, microscope', src: path, dicom: false },
-  { key: 'retina', name: 'Retina', what: 'Photo of the eye’s back', src: retina, dicom: false },
+  { key: 'xray', name: 'X-ray', what: 'A single projection image', src: xray, dicom: true },
+  { key: 'ct', name: 'CT', what: 'X-ray slices stacked into 3D', src: ct, dicom: true },
+  { key: 'mri', name: 'MRI', what: 'Magnetic fields; several contrasts', src: mri, dicom: true },
+  { key: 'ultrasound', name: 'Ultrasound', what: 'Sound echoes, in real time', src: us, dicom: true },
+  { key: 'pathology', name: 'Pathology', what: 'Stained tissue under a microscope', src: path, dicom: false },
+  { key: 'retina', name: 'Retina', what: 'Photograph of the back of the eye', src: retina, dicom: false },
 ] as const
 const open = ref<string | null>(null)
 const credit = (k: string) => (meta as any)[k].credit

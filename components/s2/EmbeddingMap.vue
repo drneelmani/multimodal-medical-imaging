@@ -46,8 +46,8 @@ const hp = computed(() => hover.value === null ? null : run.points[hover.value])
     </div>
     <div class="side">
       <p class="big">512</p>
-      <p>numbers per image: its <strong>fingerprint</strong></p>
-      <p class="rv muted" :class="{ on: step >= 2 }">Shown here squashed to 2 numbers. Nobody told the model which image is which kind; similar images simply get similar fingerprints.</p>
+      <p>numbers per image: its <strong>embedding</strong> (a numeric fingerprint)</p>
+      <p class="rv muted" :class="{ on: step >= 2 }">Shown here squashed to 2 numbers. Nobody told the model which image is which kind; similar images simply get similar embeddings.</p>
       <div v-if="hp" class="card hov"><img :src="src(hp.thumb)" alt=""><span>{{ hp.group }}</span></div>
     </div>
   </div>

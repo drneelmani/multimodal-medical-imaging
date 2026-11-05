@@ -24,7 +24,7 @@ const vols = meta.readers.volume_mm3.map(v => (v / 1000).toFixed(1))
       <h3>Labels from text are noisy</h3>
       <p>Labelled <strong>cardiomegaly</strong> from report keywords; the report itself says:</p>
       <p class="quote">“{{ cm.truth.replace('Report impression: ', '') }}”</p>
-      <p class="why">Keyword labels inherit every hedge</p>
+      <p class="why">Labels taken from report words copy the report’s uncertainty</p>
     </div>
     <div class="card rv" :class="{ on: step >= 2 }">
       <h3>Who is in the data?</h3>

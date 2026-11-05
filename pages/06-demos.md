@@ -88,7 +88,7 @@ links: [lidc]
 ---
 
 ::title::
-# Demo A2: units first, then a window
+# Demo A2: convert to Hounsfield units, then window
 
 ::default::
 <NotebookCell cell="A2" :lines="[2, 3, 5, 6, 7]" :steps="[[2, 3], [5, 6, 7]]" figure goal="convert to Hounsfield units, then pick a window to view" use="radiologists switch lung and soft-tissue windows; models need fixed units" />
@@ -121,7 +121,7 @@ links: [biomedclip]
 ---
 
 ::title::
-# Demo B1: the model never sees DICOM
+# Demo B1: turning the DICOM X-ray into model input
 
 ::default::
 <NotebookCell cell="B1" :lines="[5, 6, 7, 10, 11, 12, 13]" :steps="[[5, 6, 7], [10, 11, 12, 13]]" :out-lines="2" goal="turn the patient's DICOM X-ray into the picture the model expects" use="the preparation step inside every imaging AI product" />
@@ -147,7 +147,7 @@ section: 6
 layout: artifact
 clicks: 2
 tag: actual
-tagText: 'BiomedCLIP fingerprints, scores recomputed live'
+tagText: 'BiomedCLIP embeddings, scores recomputed live'
 run: biomedclip_ranking.json
 sources: [zhang2025biomedclip, demnerfushman2016iu, lidc2015data, hansell2008fleischner]
 links: [lidc, iu, biomedclip]
@@ -187,7 +187,7 @@ links: [iu, biomedclip]
 ---
 
 ::title::
-# Demo B3: three ways a score misleads
+# Demo B3: three ways a score can mislead
 
 ::default::
 <FailureCases />
@@ -220,7 +220,7 @@ links: [lidc, totalseg]
 ---
 
 ::title::
-# Demo C1: outline the anatomy
+# Demo C1: automatic outlining of anatomy
 
 ::default::
 <SegOverlay />
@@ -286,7 +286,7 @@ links: [lidc, upenn, cmmd, liverus, petct]
 ---
 
 ::title::
-# Demo D: real DICOM from six scanners
+# Demo D: reading DICOM from six types of scanner
 
 ::default::
 <NotebookCell cell="D3" :lines="[3, 4, 5, 6, 7]" :steps="[[3, 4, 5], [6, 7]]" :out-lines="2" colab="dicom" goal="turn PET radioactivity into SUV using the file's own tags" use="SUV is the number on PET reports, compared between scans" />
@@ -319,7 +319,7 @@ links: [lidc]
 ---
 
 ::title::
-# Demo E1: Python on a CT, from pixels to insights
+# Demo E1: measuring a CT scan with Python
 
 ::default::
 <NotebookPair :cells="['E1', 'E2']" :script="['tissue', 'nodule']" :goal="['count how much of the slice is air, lung, fat, soft tissue and bone', 'measure the nodule each of four radiologists outlined']" :use="['body-composition and quality checks on CT', 'tracking nodule growth between scans; checking how much experts agree']" />
@@ -352,7 +352,7 @@ links: [lidc, upenn, cmmd, liverus, petct]
 ---
 
 ::title::
-# Demo E2: Python on PET, then an audit of every file
+# Demo E2: PET and a file audit in Python
 
 ::default::
 <NotebookPair :cells="['E3', 'E4']" :script="['pet', 'audit']" :goal="['measure how hot the tumour is, inside the expert outline', 'check every file for missing or suspicious tags']" :use="['judging response to treatment by comparing SUV before and after', 'cleaning data before training or testing a model']" />

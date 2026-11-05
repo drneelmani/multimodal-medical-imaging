@@ -28,7 +28,7 @@ const FIELDS = [
     </div>
     <span class="arrow rv" :class="{ on: step >= 3 }" aria-hidden="true">→</span>
     <div class="join rv" :class="{ on: step >= 3 }">
-      <p class="lbl">Joined with the image fingerprint</p>
+      <p class="lbl">Joined with the image embedding</p>
       <div class="bars"><span class="img" /><span class="num" /></div>
       <p class="small muted">512 numbers from the image + 8 from the record</p>
     </div>

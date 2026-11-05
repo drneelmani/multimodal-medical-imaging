@@ -5,7 +5,7 @@ section: 5
 
 # Where is this used today?
 
-<p>Six kinds of images, one search, and one hard question about patient history.</p>
+<p>Six kinds of medical images, searching an archive with text, and the difficulty of adding patient history.</p>
 
 <!--
 **Time:** ~0.5 min
@@ -102,7 +102,7 @@ links: [petct]
 ---
 
 ::title::
-# PET/CT: two kinds of image, one picture
+# PET/CT: metabolism and anatomy in one picture
 
 ::default::
 <PetCtFusion />
@@ -301,7 +301,7 @@ links: [iu, biomedclip]
 ---
 
 ::title::
-# Search an archive with a sentence
+# Searching an image archive with a sentence
 
 ::default::
 <RetrievalDemo />
@@ -325,11 +325,11 @@ layout: split
 sources: [huang2020fusion]
 ---
 
-# Adding the history: promise and pitfalls
+# Adding patient history: benefits and risks
 
 ::left::
 
-### Promise
+### Benefits
 
 - The context a clinician uses
 - Earlier, more specific answers
@@ -337,7 +337,7 @@ sources: [huang2020fusion]
 
 ::right::
 
-### Pitfalls
+### Risks
 
 - Records missing or wrong
 - Notes that leak the answer (“suspected cancer”)

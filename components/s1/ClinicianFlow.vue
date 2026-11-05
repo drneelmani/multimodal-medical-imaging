@@ -6,7 +6,7 @@ import xray from '../../data/imaging/gallery/xray.png'
 const { step } = useStep(3)
 const lanes = [
   { title: 'The images', body: 'What is there, where, how big' },
-  { title: 'The words', body: 'Reports, referral letter, notes' },
+  { title: 'The reports', body: 'Radiology reports, referral letter, notes' },
   { title: 'The patient', body: 'History, symptoms, tests, earlier scans' },
 ]
 </script>
@@ -24,7 +24,7 @@ const lanes = [
       <path v-for="(y, i) in [50, 150, 250]" :key="y" class="rv" :class="{ on: step >= 3 }" :d="`M0 ${y} C 70 ${y}, 50 150, 116 150`" />
     </svg>
     <div class="decide rv" :class="{ on: step >= 3 }">
-      <strong>One judgement</strong>
+      <strong>One clinical decision</strong>
       <span class="muted">Follow-up scan, biopsy, or surgery?</span>
     </div>
   </div>

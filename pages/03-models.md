@@ -5,7 +5,7 @@ section: 3
 
 # How are models trained, tested and compared?
 
-<p>Learning from examples, measuring honestly, and knowing which model does what.</p>
+<p>How models learn from examples, how they are tested, and which model suits which task.</p>
 
 <!--
 **Time:** ~0.5 min
@@ -25,7 +25,7 @@ links: [biomedclip]
 ---
 
 ::title::
-# Training happens once; using the model happens every day
+# Training is done once; the model is then used daily
 
 ::default::
 <TrainInfer />
@@ -55,7 +55,7 @@ links: [crc, biomedclip, clip]
 ---
 
 ::title::
-# Zero-shot: the wording of the question matters
+# Zero-shot: results depend on how classes are worded
 
 ::default::
 <ZeroShotLab />
@@ -78,7 +78,7 @@ section: 3
 layout: artifact
 clicks: 2
 tag: actual
-tagText: 'small classifier on BiomedCLIP fingerprints, same 900 tiles'
+tagText: 'small classifier on BiomedCLIP embeddings, same 900 tiles'
 run: biomedclip_fewshot_crc.json
 sources: [zhang2025biomedclip, kather2018crcdata]
 links: [crc, biomedclip]
@@ -115,7 +115,7 @@ links: [iu, biomedclip]
 ---
 
 ::title::
-# Every threshold trades missed cases for false alarms
+# Each threshold balances missed cases and false alarms
 
 ::default::
 <ThresholdExplorer />
@@ -204,7 +204,7 @@ links: [chexzero, medclip]
 ---
 
 ::title::
-# CheXzero: learning chest X-rays from their reports
+# CheXzero: learns from chest X-rays and their reports
 
 ::default::
 <CheXzeroCard />
@@ -234,7 +234,7 @@ links: [medsam]
 ---
 
 ::title::
-# MedSAM: draw a box, get an outline
+# MedSAM: outlines the structure inside a drawn box
 
 ::default::
 <MedSAMPrompt />
@@ -262,7 +262,7 @@ links: [llavamed, medgemma]
 ---
 
 ::title::
-# Assistants write text, and the text can be wrong
+# Report-writing models can produce incorrect text
 
 ::default::
 <AssistantFlow />
@@ -290,7 +290,7 @@ sources: [zhang2025biomedclip, wang2022medclip, tiu2022chexzero, ma2024medsam, w
 ---
 
 ::title::
-# Which model does what
+# Which model is used for which task
 
 ::default::
 <ModelMatrix />

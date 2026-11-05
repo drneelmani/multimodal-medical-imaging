@@ -68,8 +68,8 @@ const recall1 = con.diagonal_is_max_in_row.filter(Boolean).length
       <p v-if="step === 1" class="note">Two experts outlining the same nodule do not agree perfectly.</p>
       <p v-if="step === 2" class="note">MedSAM’s outline is smaller than the readers’ ({{ seg.medsam.area_mm2.medsam }} vs about {{ Math.round(seg.medsam.area_mm2.readers[0]) }} mm²).</p>
       <div v-if="step >= 3" class="card ret">
-        <h3>For retrieval: Recall@1</h3>
-        <p>How often is the right report ranked first? In our six-pair batch: <strong>{{ recall1 }} of {{ con.pairs.length }}</strong>.</p>
+        <h3>A different measure, for search: Recall@1</h3>
+        <p>How often the correct report is ranked first for an X-ray. In our test of six X-rays: <strong>{{ recall1 }} of {{ con.pairs.length }}</strong>.</p>
       </div>
     </div>
   </div>
