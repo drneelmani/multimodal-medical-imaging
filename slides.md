@@ -19,7 +19,7 @@ layout: institution-cover
 # Cover text. `session` is optional (e.g. 'S13'); it is shown before the heading as "S13: …".
 session: ''
 heading: 'Multimodal AI Models for Medical Imaging Analysis'
-date: ''
+date: '6 November 2026'
 # The event (E&ICT Academy IIT Roorkee course page, course code EICTIITR-FDP-6H7-16).
 programme: 'Faculty Development Programme on AI in Healthcare and Medical Imaging'
 band: 'E&ICT Academy, IIT Roorkee (MeitY initiative)  ·  Hosted by SST, SRHU, Dehradun  ·  3–7 November 2026'

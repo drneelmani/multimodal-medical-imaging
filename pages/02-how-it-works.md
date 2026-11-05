@@ -23,6 +23,7 @@ tag: actual
 tagText: 'ResNet-50 feature maps (a general photo model) on our CT slice'
 run: cnn_features.json
 sources: [he2016resnet]
+links: [resnet50]
 ---
 
 ::title::
@@ -34,6 +35,7 @@ sources: [he2016resnet]
 <!--
 **Time:** ~1.5 min
 **Objective:** Build an intuition for layers: simple patterns first, larger patterns later.
+**Background:** Nothing medical to explain: ResNet-50 is the standard ImageNet CNN. Point out it was trained on everyday photos, not scans, yet its early layers still find edges in a CT slice.
 **Say:** A neural network is a long chain of simple steps, organised in layers. Each layer looks for patterns in the output of the layer before. These are real outputs from a well-known network, ResNet-50, when we feed it our patient's CT slice. [click] The early layer responds to edges and brightness: the outline of the body, the vessels. [click] A middle layer responds to textures and outlines. [click] A late layer works on a coarse 14 by 14 grid and responds to large patterns. [click] Finally, a last layer turns those patterns into an answer, but only after the network has been trained on many labelled examples.
 **Example:** Like a team: one person spots lines, the next spots shapes made of lines, the last says "that is a lung".
 **Try / Notice:** The early maps are sharp and detailed; the late maps are blocky because each square summarises a large region.
@@ -50,6 +52,7 @@ clicks: 3
 tag: real-data
 tagText: 'stored pixel values of our patient’s X-ray'
 sources: [lidc2015data, dosovitskiy2021vit]
+links: [lidc]
 ---
 
 ::title::
@@ -61,6 +64,7 @@ sources: [lidc2015data, dosovitskiy2021vit]
 <!--
 **Time:** ~2 min
 **Objective:** Make "image = numbers" concrete with real stored values.
+**Background:** Medical images are usually 12–16 bits per pixel (thousands of grey levels), not the 8 bits (256 levels) of a photo or screen. In an X-ray the number reflects how much radiation reached the detector; how it is shown (bright = bone) depends on the file's PhotometricInterpretation tag.
 **Say:** Our patient's chest X-ray is 2022 by 2022 pixels. Each pixel stores one number, here between about 0 and 15,000, for how much X-ray got through. [click] Zoom into the small yellow square. [click] These are the real stored numbers from the file. Brighter means a higher number. [click] Many modern image models, called vision transformers, first shrink the image to 224 by 224 pixels and cut it into 16 by 16 patches: 196 patches, which the model then treats a bit like words in a sentence.
 **Example:** A spreadsheet with four million cells, where the cell value sets the brightness.
 **Try / Notice:** The numbers change gradually across the grid: there are no sharp edges in this small patch of lung.
@@ -78,6 +82,7 @@ tag: actual
 tagText: 'BiomedCLIP’s own tokenizer, running in this page'
 run: ../biomedclip/tokenizer_cases.json
 sources: [devlin2019bert, zhang2025biomedclip]
+links: [biomedclip]
 ---
 
 ::title::
@@ -89,6 +94,7 @@ sources: [devlin2019bert, zhang2025biomedclip]
 <!--
 **Time:** ~1.5 min
 **Objective:** Show that text becomes numbers through tokens, using the real vocabulary of the model we use later.
+**Background:** BiomedCLIP's text encoder is PubMedBERT, whose vocabulary was built from biomedical abstracts, so medical words like 'pneumothorax' (collapsed lung) or 'nodule' are single tokens, while a general tokenizer would split them.
 **Say:** A text model cannot read letters either. First the sentence is cut into pieces called tokens. [click] Common words stay whole: "nodule", "lobe", "left". Rarer words are split into pieces that the model knows; the pieces marked in orange continue the word before. [click] Each token is then just a number: its position in a vocabulary of about 29,000 pieces. This is the real tokenizer of BiomedCLIP, running live in this page.
 **Example:** "Cardiopulmonary" is one token, because it appears often in medical abstracts; "cardiomegaly" is split into four pieces.
 **Try / Notice:** Type any sentence, for example a phrase from your own field, and watch how it is split.
@@ -106,6 +112,7 @@ tag: actual
 tagText: 'BiomedCLIP image embeddings, six public datasets'
 run: biomedclip_embedding_map.json
 sources: [zhang2025biomedclip]
+links: [biomedclip]
 ---
 
 ::title::
@@ -117,6 +124,7 @@ sources: [zhang2025biomedclip]
 <!--
 **Time:** ~2 min
 **Objective:** Introduce embeddings as fingerprints, with a real map from a real model.
+**Background:** No medical background needed: 'fingerprint' = embedding vector (512-D for BiomedCLIP). The map is a 2-D projection; clusters by image type (X-ray, pathology, MRI…) show the model separates modalities without labels.
 **Say:** After all its layers, the image encoder of BiomedCLIP turns every picture into a list of 512 numbers. Call it the image's fingerprint, or in the jargon, its embedding. We cannot draw 512 dimensions, so here each fingerprint is squashed down to two numbers and placed on a map. These are 44 real images from six public datasets. [click] Look where they landed: X-rays together, retina photos together, pathology together. [click] Nobody told the model what kind of image each one was. Similar pictures simply get similar fingerprints.
 **Example:** Like a library where similar books end up on nearby shelves without anyone reading the labels.
 **Try / Notice:** Hover over any thumbnail to enlarge it.
@@ -142,6 +150,7 @@ tag: teaching
 <!--
 **Time:** ~2 min
 **Objective:** Introduce the idea of a shared space where matching images and words end up close.
+**Background:** Standard CLIP architecture: image encoder (ViT) and text encoder (PubMedBERT) trained so that matching image–caption pairs end up close (high cosine).
 **Say:** Here is the key idea of models like CLIP. We have two separate encoders: one turns images into fingerprints, one turns text into fingerprints of the same length. Think of each fingerprint as a position on a map. Images land somewhere on the map. [click] Before training, the descriptions land anywhere; "a brain MRI" is nowhere near the MRI. [click] Training moves things so that each description lands next to the images it describes.
 **Example:** Like learning a second language: at first the word and the object are unconnected; with practice they become linked.
 **Try / Notice:** The words slide towards their pictures in the last step.
@@ -159,6 +168,7 @@ tag: actual
 tagText: 'BiomedCLIP on six IU chest X-rays and their report sentences'
 run: biomedclip_contrastive.json
 sources: [radford2021clip, zhang2025biomedclip, demnerfushman2016iu]
+links: [iu, biomedclip, clip]
 ---
 
 ::title::
@@ -170,6 +180,7 @@ sources: [radford2021clip, zhang2025biomedclip, demnerfushman2016iu]
 <!--
 **Time:** ~2 min
 **Objective:** Explain contrastive learning with a batch matrix, then confront it with a real result.
+**Background:** The sentences are from real radiology reports (IU X-ray collection). 'Impression' is the conclusion section of a report. The training objective is the symmetric InfoNCE contrastive loss over the batch.
 **Say:** Here are six chest X-rays and, on the left, a sentence from each one's report. During training, the model sees a batch like this and scores every picture against every sentence. [click] At the start, every picture looks equally like every sentence. [click] Training rewards a high score on the diagonal, the true pairs, and a low score everywhere else. Repeat this over millions of pairs: that is contrastive learning, the method behind CLIP. [click] Now the real thing. These are BiomedCLIP's actual scores for these six real X-rays. The correct sentence wins for only two of the six. Subtle findings such as a scoliosis or a small granuloma are hard to see at this resolution, and several sentences describe small details.
 **Example:** Like a matching exercise in an exam: draw lines between six pictures and six captions.
 **Try / Notice:** Click any cell to see its image and sentence with the exact score.
@@ -187,6 +198,7 @@ tag: actual
 tagText: 'BiomedCLIP embeddings of our patient’s X-ray, computed live'
 run: biomedclip_ranking.json
 sources: [radford2021clip, zhang2025biomedclip]
+links: [biomedclip, clip]
 ---
 
 ::title::
@@ -198,6 +210,7 @@ sources: [radford2021clip, zhang2025biomedclip]
 <!--
 **Time:** ~2.5 min
 **Objective:** Explain the score behind every image–text comparison, with one worked example.
+**Background:** Cosine is not a probability and not a confidence. In BiomedCLIP, matching image–text pairs typically score only 0.3–0.5, so read the ranking, not the absolute value.
 **Say:** Think of each fingerprint as an arrow. Cosine similarity asks one question: do the two arrows point the same way? One means exactly the same direction, zero means unrelated, minus one means opposite. Drag the arrows to see it. [click] With three numbers each: multiply matching numbers and add them up, which gives 3. Divide by the two arrow lengths, and you get 0.77. [click] The model does exactly the same with 512 numbers. Here is our patient's X-ray against two descriptions. "A mass in the lung" scores 0.41; "a brain MRI" scores much lower. The page computed these just now from the real fingerprints.
 **Example:** Two people giving directions: if they both point north-east, they agree, however far away each one thinks the place is.
 **Try / Notice:** Drag the blue and orange arrow tips; the cosine updates.
@@ -224,6 +237,7 @@ sources: [vaswani2017attention, alayrac2022flamingo]
 <!--
 **Time:** ~1.5 min
 **Objective:** Give an intuition for attention and cross-attention.
+**Background:** Radiological convention: images are viewed as if facing the patient (or from the feet for CT), so the patient's left is on the viewer's right. That is why 'left' attends to the right side of the screen.
 **Say:** Some multimodal models go further than comparing two fingerprints. With cross-attention, each word in the text can look at the image and decide which parts matter for it. [click] "Nodule" looks at the lump. [click] "Left" looks at the left lung, which is on the right of the screen, because CT is viewed as if facing the patient. [click] "Lower" looks at the lower lobe. [click] And "spiculated" looks at the spiky edge of the nodule. Small words like "the" spread their attention thinly.
 **Example:** Like reading a report while pointing at the image with your finger as each word comes up.
 **Try / Notice:** Click any word to see where it would look.
@@ -250,6 +264,7 @@ sources: [huang2020fusion]
 <!--
 **Time:** ~1.5 min
 **Objective:** Distinguish early, intermediate and late fusion and their trade-offs.
+**Background:** Clinical example of late fusion: an image model's score and a risk calculator from age and smoking history are combined at the end. Intermediate fusion (joining embeddings) is what most current medical foundation models do.
 **Say:** There are three broad places to combine modalities. Early fusion joins the raw inputs and trains one model on everything. [click] Intermediate fusion gives each input its own encoder, then joins the fingerprints; this is what most modern systems do. [click] Late fusion trains separate models and only combines their answers, for example by voting.
 **Example:** Early fusion is one doctor reading everything at once; late fusion is three specialists who never talk, each casting a vote.
 **Try / Notice:** Press "Text missing" in each mode: early fusion breaks worst, late fusion copes but loses the benefit of learning across modalities.
@@ -276,6 +291,7 @@ sources: [huang2020fusion]
 <!--
 **Time:** ~1 min
 **Objective:** Show how structured clinical data enters a model, and why missing values are the central problem.
+**Background:** Clinical values come with units that differ between hospitals (e.g. blood glucose in mg/dL or mmol/L), reference ranges that differ by age and sex, and many missing values because a test was simply not ordered. Missing is itself informative (the doctor thought it unnecessary), hence the separate 'missing' flag.
 **Say:** Lab results and history are already numbers, but they need preparing. [click] Each is scaled to a similar range so no single value dominates. [click] And many are simply missing: the blood test was not done, the earlier scan is unknown. A careful model is told explicitly what is missing, with a separate flag, rather than being fed a silent zero. [click] Then the record joins the image fingerprint and the model learns from both.
 **Example:** A zero for a blood test that was never taken is not the same as a measured zero.
 **Try / Notice:** The orange cells are the missing values and their flags.

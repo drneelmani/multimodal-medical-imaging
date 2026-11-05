@@ -4,6 +4,7 @@ import { useStep } from '../../composables/useStep'
 import { useBinary } from '../../composables/useBinary'
 import { rafThrottle } from '../../composables/raf'
 import huUrl from '../../data/imaging/ct/slice_hu.bin?url'
+import ZoomPane from '../ui/ZoomPane.vue'
 
 // Artifact 14 — CT windowing on the real Hounsfield values of our patient's slice. The window
 // (level = centre, width = range) decides which HU become black-to-white; everything else is clipped.
@@ -50,7 +51,7 @@ const hx = (hu: number) => ((hu - LO) / (HI - LO)) * HW
 
 <template>
   <div class="ws">
-    <canvas ref="cv" width="512" height="512" class="ct" />
+    <div class="ctbox"><ZoomPane><canvas ref="cv" width="512" height="512" class="ct" /></ZoomPane></div>
     <div class="side">
       <div class="presets">
         <button v-for="p in PRESETS" :key="p.name" class="chip" :aria-pressed="level === p.level && width === p.width" @click="set(p)">{{ p.name }}</button>
@@ -71,7 +72,8 @@ const hx = (hu: number) => ((hu - LO) / (HI - LO)) * HW
 
 <style scoped>
 .ws { display: grid; grid-template-columns: 350px 1fr; gap: 32px; align-items: center; }
-.ct { width: 350px; height: 350px; border-radius: var(--radius); display: block; }
+.ctbox { width: 350px; height: 350px; border-radius: var(--radius); overflow: hidden; }
+.ct { width: 100%; height: 100%; display: block; }
 .side { display: flex; flex-direction: column; gap: 12px; }
 .presets { display: flex; gap: 6px; flex-wrap: wrap; }
 .presets .chip { padding: 6px 12px; }

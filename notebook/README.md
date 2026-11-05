@@ -25,7 +25,7 @@ Both use only public, de-identified data. Don't upload hospital files to Colab.
 conda create -n mmfdp python=3.11 -y && conda activate mmfdp
 # PyTorch for your machine (see the comment at the top of requirements.txt), then:
 pip install -r requirements.txt
-python download_data.py          # about 170 MB: the patient's CT, X-ray, reader files, and one brain MRI
+python download_data.py          # about 170 MB: the patient's CT, X-ray, reader files, one brain MRI and its AI tumour outline
 jupyter lab multimodal-medical-imaging.ipynb
 ```
 
@@ -54,6 +54,7 @@ Optional: `python download_data.py --all` also fetches the Indiana University X-
 | CMMD (TCIA), patient D2-0333 | Mammograms (DICOM) and clinical table | CC BY 4.0 |
 | B-mode-and-CEUS-Liver (TCIA), LiverUS-01 | Multi-frame liver ultrasound (DICOM) | CC BY 4.0 |
 | FDG-PET-CT-Lesions (TCIA, defaced release), PETCT_b899150306 | PET, CT and lesion SEG (DICOM) | CC BY 4.0 |
+| BAMF AIMI annotations (Zenodo; DICOM SEG via Imaging Data Commons) | AI tumour outline for UPENN-GBM-00001 (necrosis, oedema, enhancing edge) | CC BY 4.0 |
 
 ## Privacy
 
@@ -95,7 +96,8 @@ To rebuild everything the slides show:
 python prepare_deck_assets.py ct dx sr mri gallery dicom pipeline
 python run_segmentation.py
 python prepare_deck_assets.py attn apps
-python download_data.py --dicom && python prepare_deck_assets.py dicom_examples   # the DICOM sample pack and PET/CT arrays
+python download_data.py --dicom && python prepare_deck_assets.py dicom_examples dicom_samples   # the DICOM sample pack, PET/CT arrays and test files
+python prepare_deck_assets.py mri_tumour   # AI tumour outline (AIMI, from IDC) on the MRI slide
 python run_cnn_features.py
 python run_biomedclip.py            # all parts; needs the --all datasets
 python build_notebook.py && jupyter nbconvert --to notebook --execute --inplace multimodal-medical-imaging.ipynb && python build_notebook.py --extract

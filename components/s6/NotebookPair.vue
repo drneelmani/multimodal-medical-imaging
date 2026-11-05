@@ -7,8 +7,9 @@ import ColabLink from '../ui/ColabLink.vue'
 
 // Demo E — two Python cells of the companion notebook (Workflow E), exactly as they ran in Jupyter,
 // with their printed insights and figures. The same code runs from a terminal as dicom_insights.py.
-// Clicks: first cell's code → its output → second cell's code → its output. clicks: 3
-const props = defineProps<{ cells: [keyof typeof cells, keyof typeof cells], script: [string, string] }>()
+// Clicks: first cell's code → its output → second cell's code → its output. `goal` and `use` (one per
+// cell) say in plain words what the code does and where this is done in practice. clicks: 3
+const props = defineProps<{ cells: [keyof typeof cells, keyof typeof cells], script: [string, string], goal?: [string, string], use?: [string, string] }>()
 const { step } = useStep(3)
 const figs = import.meta.glob('../../data/notebook/*.png', { eager: true, import: 'default' }) as Record<string, string>
 const which = ref(0)
@@ -28,6 +29,7 @@ const pick = (i: number) => { which.value = i; showOut.value = true }
       <span class="cmd mono">python dicom_insights.py {{ props.script[which] }}</span>
       <ColabLink which="dicom" label="Open in Colab" small />
     </div>
+    <p v-if="goal" class="sum"><span><b>Goal</b> {{ goal[which] }}</span><span v-if="use"><b>In practice</b> {{ use[which] }}</span></p>
     <pre class="code" :class="{ small: showOut }">{{ cell.code }}</pre>
     <div v-if="showOut" class="out rv on">
       <img v-if="fig" :src="fig" alt="Figure produced by this notebook cell" class="fig" :class="{ wide: props.cells[which] === 'E1' }">
@@ -41,6 +43,8 @@ const pick = (i: number) => { which.value = i; showOut.value = true }
 </template>
 
 <style scoped>
+.sum { display: flex; flex-wrap: wrap; gap: 2px 18px; margin: 0; font-size: 14.5px; line-height: 1.3; color: var(--ink); padding: 5px 10px; border-left: 3px solid var(--accent); background: var(--accent-tint); border-radius: 0 4px 4px 0; }
+.sum b { font-weight: 600; color: var(--accent); margin-right: 4px; }
 .np { display: flex; flex-direction: column; gap: 8px; }
 .bar { display: flex; gap: 8px; align-items: center; }
 .bar .chip { padding: 5px 12px; font-size: 15px; }

@@ -4,6 +4,7 @@ section: 1
 tag: real-data
 tagText: 'LIDC-IDRI-0001, TCIA · CC BY 3.0'
 sources: [lidc2015data]
+links: [lidc]
 ---
 
 <div class="title-top">
@@ -24,6 +25,7 @@ sources: [lidc2015data]
 <!--
 **Time:** ~1 min
 **Objective:** Set expectations: a practical, honest two hours on how AI combines images with text and patient data.
+**Background:** A *modality* is one kind of data or one kind of scanner (X-ray, CT, MRI, ultrasound, PET, a report, lab values). *Multimodal* = a model that takes more than one kind as input. *De-identified / anonymised*: names, birth dates and hospital numbers removed so the patient cannot be identified.
 **Say:** Welcome. Over the next two hours we will look at how AI systems can connect a medical image with the words a clinician writes about it and with the rest of what we know about a patient. We will follow one real, anonymised patient from a public research archive: their chest X-ray, their CT scan, and what four radiologists wrote about them. Everything you see labelled as real data or as a real model output was actually run for this session. You do not need any background in AI or programming.
 **Example:** The three pieces at the bottom: an X-ray, one CT slice, and two phrases from a radiologist's structured report. By the end of the session you will know how a model can turn each of these into numbers and compare them.
 **Try / Notice:** Nothing to click yet. Point to the three pieces of evidence.
@@ -56,7 +58,8 @@ layout: artifact
 clicks: 3
 tag: real-data
 tagText: 'LIDC-IDRI-0001 and its radiologist reports, TCIA · CC BY 3.0'
-sources: [lidc2015data, fedorov2018lidcdicom]
+sources: [lidc2015data, fedorov2018lidcdicom, hansell2008fleischner]
+links: [lidc]
 ---
 
 ::title::
@@ -68,6 +71,7 @@ sources: [lidc2015data, fedorov2018lidcdicom]
 <!--
 **Time:** ~1.5 min
 **Objective:** Show that even one patient arrives as several kinds of evidence, each answering different questions.
+**Background:** LIDC-IDRI is a public lung-cancer research collection: CT scans plus outlines and ratings by four radiologists (doctors who read scans). A *nodule* is a small round lump in the lung, up to 3 cm across (larger = *mass*); it may be cancer or harmless scar. *Left lower lobe*: the right lung has three lobes (upper, middle, lower), the left has two (upper, lower). *Spiculated* = spiky edge, a warning sign for cancer. Ratings are 1–5 forms the readers filled in (DICOM SR).
 **Say:** This is a real, anonymised patient from a public archive. First, a chest X-ray. [click] Then a CT scan: 133 thin slices; this is the one through the widest part of a lump in the left lung, circled. [click] Four radiologists independently outlined the lump and filled in a structured form. This one wrote: solid nodule, about 32 millimetres, spiky edge, and rated it 5 out of 5 for suspicion of cancer. [click] And what is missing: the history. Symptoms, smoking, earlier scans, blood tests. A clinician would never decide without them, and the public data does not include them.
 **Example:** Think of a detective with a photograph, a witness statement and a background file. Each one answers different questions.
 **Try / Notice:** The yellow circle on the CT slice; the dashed card on the right is deliberately empty.
@@ -84,6 +88,7 @@ clicks: 6
 tag: real-data
 tagText: 'six public datasets, credits on click'
 sources: [lidc2015data, bakas2021upenndata, vandenheuvel2018hc18, kather2018crcdata, jin2022fives]
+links: [lidc, upenn, crc, hc18, fives]
 ---
 
 ::title::
@@ -95,6 +100,7 @@ sources: [lidc2015data, bakas2021upenndata, vandenheuvel2018hc18, kather2018crcd
 <!--
 **Time:** ~1.5 min
 **Objective:** Recognise the main imaging modalities and that they are stored differently.
+**Background:** X-ray: one shadow picture; bone stops X-rays (white), air lets them through (black). CT (computed tomography): X-rays from all round the body, computed into thin slices, values in Hounsfield units. MRI: strong magnet and radio waves, no radiation; contrast depends on the 'sequence'. Ultrasound: high-frequency sound echoes, live, no radiation. Pathology: microscope photos of tissue stained pink and purple (H&E). Fundus photo: a camera picture of the back of the eye (retina). PET (later): shows where a radioactive sugar collects.
 **Say:** X-ray: a shadow picture, cheap and fast. [click] CT: many X-ray slices stacked into a 3D volume, which is our patient. [click] MRI uses magnetism instead of radiation and can show the same tissue with different contrasts. [click] Ultrasound uses sound echoes and is live; this one is a baby's head. [click] Pathology: thin slices of tissue, stained and photographed under a microscope. [click] And the retina, photographed through the pupil. [click] Notice the stamps: radiology images are usually stored as DICOM, the hospital standard we will open up in Part 4. Microscope slides and eye photos often are not.
 **Example:** All six images in this gallery come from public, openly licensed research datasets, and you will see several of them again later.
 **Try / Notice:** Click any tile to enlarge it and see its source and licence.
@@ -120,6 +126,7 @@ tag: teaching
 <!--
 **Time:** ~1.5 min
 **Objective:** Make explicit the integration clinicians already do in their heads.
+**Background:** Workflow: a clinician requests a scan with a clinical question → a radiographer runs the scanner → the images go to the hospital image archive (PACS) → a radiologist reads them and writes a report (Findings, then Impression = conclusion) → the clinician combines it with history, examination and blood tests. AI can enter at any step.
 **Say:** A radiologist reading a scan has three streams of information. The images: what is there, where, and how big. [click] The words: the referral letter that says why the scan was done, previous reports, notes. [click] And the patient: history, symptoms, blood tests, earlier scans. [click] All three flow into one judgement: is this a follow-up scan in three months, a biopsy, or surgery?
 **Example:** "Cough for three months, ex-smoker" on a referral changes how you read a lung nodule.
 **Try / Notice:** Each lane lights up in turn; then they join.
@@ -136,6 +143,7 @@ clicks: 4
 tag: real-data
 tagText: 'LIDC-IDRI-0001, TCIA · CC BY 3.0'
 sources: [lidc2015data]
+links: [lidc]
 ---
 
 ::title::
@@ -147,6 +155,7 @@ sources: [lidc2015data]
 <!--
 **Time:** ~1.5 min
 **Objective:** Show concretely what image-only AI can and cannot know.
+**Background:** Doctors judge a lung nodule by size and shape, but also by growth over time (needs an earlier scan), smoking history and age; cancer is only confirmed by a biopsy (a tissue sample read under a microscope). These are not in the pixels, which is the case for multimodal AI.
 **Say:** An image-only system can be very good at the first kind of question: where is the abnormality and how big is it. Here, a lump about three centimetres across. But look at what the pixels cannot tell us. [click] Is it new, or has it been there unchanged for years? [click] Does the patient have symptoms? [click] Smoking or other risks? [click] And why was the scan done in the first place? Each of these changes what the finding means.
 **Example:** A 3 cm nodule unchanged for five years and a 3 cm nodule that was not there last year are very different stories, yet the single image looks the same.
 **Try / Notice:** The box marks the nodule; the list grows with each click.
@@ -173,6 +182,7 @@ sub: 'AI that learns from more than one kind of data at once'
 <!--
 **Time:** ~1.5 min
 **Objective:** Define multimodal AI in one plain sentence.
+**Background:** Same idea as multimodal ML in computer science: separate encoders per input type, fused into one representation. The three medical 'modalities' here: images (DICOM), text (reports, notes), and structured data (lab values, vital signs, history from the electronic health record, EHR).
 **Say:** "Modality" here just means a kind of data. Images are one modality. [click] Text, such as reports and notes, is another. [click] Numbers, such as lab results, vital signs and history, are a third. [click] A multimodal model takes in more than one of these and, crucially, learns how they relate: which words go with which image patterns. What comes out might be an answer, a score, or an outline on the image.
 **Example:** A chest X-ray plus the words "fever and cough" plus a high white-cell count points somewhere different from the X-ray alone.
 **Try / Notice:** The three inputs join into one model.
@@ -189,6 +199,7 @@ clicks: 2
 tag: real-data
 tagText: 'LIDC-IDRI-0001 and its four radiologist reports'
 sources: [lidc2015data, fedorov2018lidcdicom]
+links: [lidc]
 ---
 
 ::title::
@@ -200,6 +211,7 @@ sources: [lidc2015data, fedorov2018lidcdicom]
 <!--
 **Time:** ~1.5 min
 **Objective:** Feel the difference between image-only and image-plus-context reasoning on a real case.
+**Background:** Radiologists' malignancy rating in LIDC is 1 (highly unlikely cancer) to 5 (highly suspicious). It is an opinion from the images, not a proven diagnosis; LIDC does not include biopsy results for this patient.
 **Say:** On the left, only the image. What can we say? A round lump, three centimetres, spiky edge. [click] Add the report text: three of the four radiologists rated it highly suspicious for cancer. That is information a model can learn to connect with how the image looks. [click] Add the history, and a new kind of question becomes answerable: has it grown? That needs an earlier scan, which is exactly the kind of data multimodal systems try to bring in.
 **Example:** This is what the rest of the session is about: how a model can connect the left side with the right side.
 **Try / Notice:** Toggle the evidence on and off with the buttons to show what each piece contributes.

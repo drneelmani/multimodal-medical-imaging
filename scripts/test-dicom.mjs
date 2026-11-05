@@ -1,11 +1,14 @@
-// Check composables/dicom.ts against pydicom: every teaching copy in public/dicom/ must give the same
+// Check composables/dicom.ts against pydicom: every teaching copy in public/dicom/ (and the sample files
+// in public/dicom/samples/) must give the same
 // key tags, the same pixel statistics after rescale, and (for PET) the same SUV factor as
 // notebook/prepare_deck_assets.py recorded in public/dicom/manifest.json.
 // Usage: node --experimental-strip-types scripts/test-dicom.mjs
 import { readFileSync } from 'node:fs'
 import { loadDicom, suvFactor } from '../composables/dicom.ts'
 
-const { files, segs } = JSON.parse(readFileSync('public/dicom/manifest.json', 'utf8'))
+const { files: pack, segs } = JSON.parse(readFileSync('public/dicom/manifest.json', 'utf8'))
+const samples = JSON.parse(readFileSync('public/dicom/samples/manifest.json', 'utf8')).files.map(f => ({ ...f, file: `samples/${f.file}` }))
+const files = [...pack, ...samples]
 const close = (a, b, tol = 1e-3) => Math.abs(a - b) <= tol * Math.max(1, Math.abs(b))
 let bad = 0
 for (const f of files) {

@@ -1,4 +1,5 @@
-// Check that every source URL in data/refs/*.ts resolves. Usage: node scripts/check-urls.mjs
+// Check that every source URL in data/refs/*.ts and every dataset/model link in data/links.ts resolves.
+// Usage: node scripts/check-urls.mjs
 import { readFileSync, readdirSync } from 'node:fs'
 
 const entries = []
@@ -6,6 +7,7 @@ for (const f of readdirSync('data/refs').filter(f => f.endsWith('.ts'))) {
   const text = readFileSync(`data/refs/${f}`, 'utf8')
   for (const m of text.matchAll(/key:\s*'([^']+)'[\s\S]*?url:\s*'([^']+)'/g)) entries.push({ file: f, key: m[1], url: m[2] })
 }
+for (const m of readFileSync('data/links.ts', 'utf8').matchAll(/key:\s*'([^']+)'[^\n]*?url:\s*'([^']+)'/g)) entries.push({ file: 'links.ts', key: m[1], url: m[2] })
 
 const UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130 Safari/537.36'
 async function check(url) {

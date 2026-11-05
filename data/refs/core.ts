@@ -4,6 +4,7 @@ import type { Ref } from './types'
 // Crossref, abstracts of journal papers read via Semantic Scholar, all on 2026-10-30. Numbers quoted on
 // slides appear in these abstracts.
 export const refs: Ref[] = [
+  { key: 'hansell2008fleischner', authors: 'Hansell, D. M. et al.', year: 2008, title: 'Fleischner Society: glossary of terms for thoracic imaging', venue: 'Radiology 246(3), 697–722', url: 'https://doi.org/10.1148/radiol.2462070712', accessed: '2026-11-05', supports: 'Nodule = rounded opacity up to 3 cm; larger = mass' },
   { key: 'dicomstandard', authors: 'National Electrical Manufacturers Association (NEMA)', year: 2026, title: 'DICOM PS3: Digital Imaging and Communications in Medicine standard (current edition)', venue: 'dicomstandard.org', url: 'https://www.dicomstandard.org/current', accessed: '2026-10-30', supports: 'File structure, hierarchy, tags, rescale and window attributes' },
   { key: 'boellaard2015petguideline', authors: 'Boellaard, R. et al.', year: 2015, title: 'FDG PET/CT: EANM procedure guidelines for tumour imaging: version 2.0', venue: 'European Journal of Nuclear Medicine and Molecular Imaging 42', url: 'https://doi.org/10.1007/s00259-014-2961-x', accessed: '2026-11-02', supports: 'PET quantitation (SUV) and its standardisation' },
   { key: 'he2016resnet', authors: 'He, K., Zhang, X., Ren, S., Sun, J.', year: 2016, title: 'Deep residual learning for image recognition', venue: 'CVPR 2016', url: 'https://arxiv.org/abs/1512.03385', accessed: '2026-10-30', supports: 'ResNet architecture' },

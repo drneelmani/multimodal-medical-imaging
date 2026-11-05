@@ -8,6 +8,7 @@ import suvUrl from '../../data/imaging/petct/suv_x100.bin?url'
 import lesion from '../../data/imaging/petct/lesion_edge.png'
 import mip from '../../data/imaging/petct/mip_coronal.png'
 import meta from '../../data/imaging/petct/meta.json'
+import ZoomPane from '../ui/ZoomPane.vue'
 
 // Artifact 26 — PET/CT: two kinds of image from one scanner session, one picture. CT shows anatomy,
 // PET shows sugar uptake (SUV, computed from the PET file's tags); fused, the hot spot gets an address.
@@ -49,23 +50,34 @@ const probe = computed(() => {
   return { hu: new Int16Array(ct.value)[i], suv: new Uint16Array(suv.value)[i] / 100 }
 })
 const move = (e: PointerEvent) => { const r = (e.currentTarget as HTMLElement).getBoundingClientRect(); at.value = { x: Math.floor(((e.clientX - r.left) / r.width) * W), y: Math.floor(((e.clientY - r.top) / r.height) * H) } }
+// Places on the whole-body image, marked by eye (fractions of width and height): FDG goes where cells
+// use a lot of sugar, so brain, heart, kidneys and bladder are dark normally; the tumour is abnormal.
+const MARKS = [{ t: 'tumour', x: 0.56, y: 0.245, bad: true }, { t: 'heart', x: 0.47, y: 0.38 }, { t: 'liver', x: 0.36, y: 0.5 }, { t: 'kidney', x: 0.58, y: 0.56 }, { t: 'bladder', x: 0.51, y: 0.84 }]
 const CAP = ['CT: anatomy, in Hounsfield units', 'PET: sugar uptake, in SUV', 'Fused: the hot spot gets an address', 'Expert outline of the tumour (DICOM SEG)']
 </script>
 
 <template>
   <div class="pf">
     <div>
-      <div class="pic" @pointermove="move" @pointerleave="at = null">
-        <canvas ref="cv" :width="W" :height="H" />
-        <img v-if="step >= 3" :src="lesion" alt="" class="les">
+      <div class="pic">
+        <ZoomPane>
+          <div class="probe" @pointermove="move" @pointerleave="at = null">
+            <canvas ref="cv" :width="W" :height="H" />
+            <img v-if="step >= 3" :src="lesion" alt="" class="les">
+          </div>
+        </ZoomPane>
       </div>
       <p class="read">{{ CAP[step] }}<template v-if="probe"> · {{ probe.hu }} HU, SUV {{ probe.suv.toFixed(1) }}</template></p>
       <label v-if="step >= 2" class="ctl">PET opacity <input v-model.number="alpha" type="range" min="0" max="1" step="0.05" @keydown.stop></label>
     </div>
     <div class="side">
       <figure>
-        <img :src="mip" alt="Whole-body PET, front view, darker = more uptake">
-        <figcaption>Whole body, front view</figcaption>
+        <div class="mipbox">
+          <img :src="mip" alt="Whole-body PET, front view, darker = more uptake">
+          <span class="lvl" :style="{ top: `${meta.mip_slice_frac * 100}%` }" />
+          <span v-for="m in MARKS" :key="m.t" class="mk" :class="{ bad: m.bad }" :style="{ left: `${m.x * 100}%`, top: `${m.y * 100}%` }">{{ m.t }}</span>
+        </div>
+        <figcaption>Whole body, front view: all slices squeezed into one picture (a maximum-intensity projection), so it stays the same. <span class="yl">Yellow line</span>: the slice on the left. Labels added by us.</figcaption>
       </figure>
       <div class="card rv" :class="{ on: step >= 3 }">
         <p>Tumour SUVmax <strong>{{ meta.lesion.suv_max }}</strong></p>
@@ -77,14 +89,21 @@ const CAP = ['CT: anatomy, in Hounsfield units', 'PET: sugar uptake, in SUV', 'F
 
 <style scoped>
 .pf { display: grid; grid-template-columns: 330px 1fr; gap: 30px; align-items: center; }
-.pic { position: relative; width: 330px; height: 330px; border-radius: var(--radius); overflow: hidden; background: var(--image-mat); cursor: crosshair; }
+.pic { position: relative; width: 330px; height: 330px; border-radius: var(--radius); overflow: hidden; background: var(--image-mat); }
+.probe { position: relative; width: 100%; height: 100%; cursor: crosshair; }
 .pic canvas, .les { position: absolute; inset: 0; width: 100%; height: 100%; }
 .les { image-rendering: pixelated; }
 .read { font-size: 15px; margin: 6px 0 2px; min-height: 20px; }
 .ctl { font-size: 15px; }
-.side { display: grid; grid-template-columns: 150px 1fr; gap: 18px; align-items: center; }
+.side { display: grid; grid-template-columns: 200px 1fr; gap: 18px; align-items: center; }
 figure { margin: 0; display: flex; flex-direction: column; gap: 4px; }
-figure img { width: 150px; border: 1px solid var(--rule); border-radius: 4px; background: #fff; }
-figcaption { font-size: 14px; color: var(--ink-2); }
+.mipbox { position: relative; width: 200px; }
+figure img { width: 200px; display: block; border: 1px solid var(--rule); border-radius: 4px; background: #fff; }
+.lvl { position: absolute; left: 0; right: 0; height: 2px; background: #ffc400; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35); }
+.mk { position: absolute; transform: translate(10px, -50%); font: 600 10.5px/1 var(--font-sans); color: #1d4ed8; background: rgba(255, 255, 255, 0.85); padding: 1px 3px; border-radius: 3px; white-space: nowrap; }
+.mk::before { content: ''; position: absolute; left: -10px; top: 50%; width: 8px; height: 1px; background: currentColor; }
+.mk.bad { color: #b91c1c; }
+.yl { color: #a16207; font-weight: 600; }
+figcaption { font-size: 12.5px; color: var(--ink-2); line-height: 1.3; }
 .card p { margin: 0 0 6px; font-size: var(--fs-label); }
 </style>

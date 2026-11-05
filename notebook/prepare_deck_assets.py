@@ -472,6 +472,34 @@ def stage_mri():
     print('mri: slice', k, metrics)
 
 
+def stage_mri_tumour():
+    """Where the tumour is on the MRI slide: the AI outline (BAMF AIMI annotations, DICOM SEG on the T1
+    series) of necrosis, oedema and the enhancing edge, on the same T1 grid and slice as stage_mri."""
+    t1 = read_series(os.path.join(RAW, 'upenn', 't1_axial'))
+    seg = os.path.join(RAW, 'upenn', 'seg_aimi_t1.dcm')
+    ds = pydicom.dcmread(seg, stop_before_pixels=True)
+    t1_uid = pydicom.dcmread(glob.glob(os.path.join(RAW, 'upenn', 't1_axial', '*.dcm'))[0], stop_before_pixels=True).SeriesInstanceUID
+    assert ds.ReferencedSeriesSequence[0].SeriesInstanceUID == t1_uid, 'SEG does not reference the T1 series'
+    k = json.load(open(out('mri', 'meta.json')))['slice']
+    colours = {'Necrosis': (255, 255, 255), 'Edema': (255, 196, 0), 'Enhancing Lesion': (255, 64, 64)}
+    shape = sitk.GetArrayFromImage(t1)[k].shape
+    rgba = np.zeros((*shape, 4), np.uint8)
+    regions = {}
+    for s in ds.SegmentSequence:
+        m = sitk.GetArrayFromImage(read_seg_on(seg, t1, int(s.SegmentNumber)))
+        mk = m[k] > 0
+        er = sitk.GetArrayFromImage(sitk.BinaryErode(sitk.GetImageFromArray(mk.astype(np.uint8)), [1, 1])).astype(bool)
+        rgba[mk & ~er] = [*colours[s.SegmentLabel], 255]
+        vox_ml = float(np.prod(t1.GetSpacing())) / 1000
+        regions[s.SegmentLabel] = {'slice_px': int(mk.sum()), 'volume_ml': round(float((m > 0).sum() * vox_ml), 1), 'colour': '#%02x%02x%02x' % colours[s.SegmentLabel]}
+    Image.fromarray(rgba).save(out('mri', 'tumour_outline.png'))
+    meta = json.load(open(out('mri', 'meta.json')))
+    meta['tumour'] = {'source': 'BAMF AIMI annotations (AI segmentation, DICOM SEG via Imaging Data Commons), doi:10.5281/zenodo.8345959, CC BY 4.0',
+                      'algorithm': 'AUTOMATIC', 'regions': regions}
+    json.dump(meta, open(out('mri', 'meta.json'), 'w'), indent=1)
+    print('mri_tumour:', regions)
+
+
 # ---------------------------------------------------------------- real DICOM teaching copies
 
 DICOM_OUT = os.path.join(HERE, '..', 'public', 'dicom')
@@ -602,20 +630,22 @@ def read_pet_volume(d):
     return img, files, hs
 
 
-def read_seg_on(seg_path, ref):
-    """A DICOM SEG mask (all segments merged) resampled onto `ref`'s grid."""
+def read_seg_on(seg_path, ref, segment=None):
+    """A DICOM SEG mask resampled onto `ref`'s grid: all segments merged, or only segment number `segment`."""
     ds = pydicom.dcmread(seg_path)
     frames = ds.pixel_array.astype(np.uint8)
     if frames.ndim == 2:
         frames = frames[None]
     shared = ds.SharedFunctionalGroupsSequence[0]
     sp = [float(x) for x in shared.PixelMeasuresSequence[0].PixelSpacing]
-    zs = [float(f.PlanePositionSequence[0].ImagePositionPatient[2]) for f in ds.PerFrameFunctionalGroupsSequence]
-    pos0 = [float(x) for x in ds.PerFrameFunctionalGroupsSequence[0].PlanePositionSequence[0].ImagePositionPatient]
+    per = ds.PerFrameFunctionalGroupsSequence
+    zs = [float(f.PlanePositionSequence[0].ImagePositionPatient[2]) for f in per]
+    pos0 = [float(x) for x in per[0].PlanePositionSequence[0].ImagePositionPatient]
     uz = sorted(set(zs))
     vol = np.zeros((len(uz), frames.shape[1], frames.shape[2]), np.uint8)
     for i, z in enumerate(zs):
-        vol[uz.index(z)] |= frames[i]
+        if segment is None or int(per[i].SegmentIdentificationSequence[0].ReferencedSegmentNumber) == segment:
+            vol[uz.index(z)] |= frames[i]
     img = sitk.GetImageFromArray(vol)
     img.SetSpacing((sp[1], sp[0], (uz[1] - uz[0]) if len(uz) > 1 else 1.0))
     img.SetOrigin((pos0[0], pos0[1], uz[0]))
@@ -721,6 +751,7 @@ def stage_dicom_examples():
     meta = {'source': 'FDG-PET-CT-Lesions, patient PETCT_b899150306 (lung cancer), TCIA, CC BY 4.0 (defaced release)',
             'grid': [int(x) for x in hu.shape[1:]], 'ct_slice': kc, 'pet_slice': kp, 'ct_spacing_mm': [round(x, 4) for x in ct.GetSpacing()],
             'suv_factor': factor, 'suv_scale': 100, 'mip_suv_max_display': 8,
+            'mip_slice_frac': round((len(pet_hs) - 1 - kp + 0.5) / len(pet_hs), 4),
             'lesion': {'suv_max': round(float(les_suv.max()), 2), 'suv_mean': round(float(les_suv.mean()), 2),
                        'volume_ml': round(float((seg_pet > 0).sum() * vox_ml), 1), 'slice_area_px': int(lesion.sum())},
             'tags': {'weight_kg': float(ds.PatientWeight), 'dose_mbq': float(ds.RadiopharmaceuticalInformationSequence[0].RadionuclideTotalDose) / 1e6,
@@ -764,6 +795,57 @@ def stage_dicom_examples():
     for f in files:
         print(f"dicom: {f['file']:28s} {f['bytes'] / 1e6:5.2f} MB  {f['tags'].get('Modality')}  {f['tags'].get('Rows')}x{f['tags'].get('Columns')}  frames {f['tags'].get('NumberOfFrames', 1)}")
     print('petct:', meta['lesion'], 'SUV factor', round(factor, 6))
+
+
+def stage_dicom_samples():
+    """Four more teaching copies for testing "Open your own .dcm" on the viewer slide: files the viewer does
+    not already show, each with its source, in public/dicom/samples/ and as one zip with a README."""
+    import zipfile
+    import pandas as pd
+    sub = 'samples'
+    os.makedirs(os.path.join(DICOM_OUT, sub), exist_ok=True)
+    files = []
+    # CT: the same patient lower down, through the liver and the top of the kidneys (pixels unchanged)
+    _, ct_files = read_ct()
+    zs = sorted(ct_files, key=lambda f: float(pydicom.dcmread(f, stop_before_pixels=True).ImagePositionPatient[2]))
+    ds = pydicom.dcmread(zs[len(zs) // 8])
+    files.append(reference(write_teaching_copy(ds, ds.pixel_array, f'{sub}/ct-lidc-0001-upper-abdomen.dcm', 'private tags removed; pixels unchanged', DOI['lidc']),
+                           {'title': 'CT, upper abdomen (same patient as the viewer)', 'source': 'LIDC-IDRI (TCIA)', 'url': 'https://www.cancerimagingarchive.net/collection/lidc-idri/', 'licence': 'CC BY 3.0'}))
+    # MRI: T1 after contrast, the original slice nearest the one used on the MRI slides
+    t1 = read_series(os.path.join(RAW, 'upenn', 't1_axial'))
+    z_target = t1.TransformIndexToPhysicalPoint((0, 0, json.load(open(out('mri', 'meta.json')))['slice']))[2]
+    t1c = sorted(glob.glob(os.path.join(RAW, 'upenn', 't1_axial_stealthpost', '*.dcm')), key=lambda f: abs(float(pydicom.dcmread(f, stop_before_pixels=True).ImagePositionPatient[2]) - z_target))
+    ds = pydicom.dcmread(t1c[0])
+    files.append(reference(write_teaching_copy(ds, ds.pixel_array, f'{sub}/mri-t1-contrast-upenn-00001.dcm', 'private tags removed; pixels unchanged', DOI['upenn']),
+                           {'title': 'Brain MRI, T1 after contrast', 'source': 'UPENN-GBM (TCIA)', 'url': 'https://www.cancerimagingarchive.net/collection/upenn-gbm/', 'licence': 'CC BY 4.0'}))
+    # Mammogram: the other view of the same breast as the viewer's (downsampled 4x)
+    clin = pd.read_excel(os.path.join(RAW, 'cmmd', 'CMMD_clinicaldata_revision.xlsx'))
+    side = clin[clin.ID1 == 'D2-0333'].iloc[0].LeftRight
+    mg = [f for f in sorted(glob.glob(os.path.join(RAW, 'cmmd', 'D2-0333', '*.dcm'))) if pydicom.dcmread(f, stop_before_pixels=True).ImageLaterality == side]
+    ds = pydicom.dcmread(mg[1])
+    view = ds.ViewCodeSequence[0].CodeMeaning if 'ViewCodeSequence' in ds else 'second view'
+    files.append(reference(write_teaching_copy(ds, np.round(block_mean(ds.pixel_array, 4)).astype(np.uint8), f'{sub}/mammo-cmmd-d2-0333-second-view.dcm', 'downsampled 4x', DOI['cmmd'], 4),
+                           {'title': f'Mammogram, {view} view (same breast as the viewer)', 'source': 'CMMD (TCIA)', 'url': 'https://www.cancerimagingarchive.net/collection/cmmd/', 'licence': 'CC BY 4.0'}))
+    # PET: the same patient through the liver and kidneys (pixels unchanged; SUV works from its tags)
+    _, _, pet_hs = read_pet_volume(os.path.join(RAW, 'petct', 'PT'))
+    ds = pet_hs[118]
+    files.append(reference(write_teaching_copy(ds, ds.pixel_array, f'{sub}/pet-fdg-abdomen.dcm', 'private tags removed; pixels unchanged', DOI['petct']),
+                           {'title': 'FDG PET, abdomen (liver, kidneys)', 'source': 'FDG-PET-CT-Lesions (TCIA)', 'url': 'https://www.cancerimagingarchive.net/collection/fdg-pet-ct-lesions/', 'licence': 'CC BY 4.0'}))
+    readme = ['Sample DICOM files for testing "Open your own .dcm" in the deck "Multimodal AI Models for Medical Imaging Analysis".',
+              'Real, public, de-identified scans from The Cancer Imaging Archive (TCIA). Teaching copies: private tags removed,',
+              'new SOP Instance UIDs, and each change written into the DerivationDescription tag. Credit the source when you reuse them.', '']
+    for f in files:
+        readme += [f"{f['file']}", f"  {f['title']}", f"  Source: {f['source']}, {f['url']}  Licence: {f['licence']}", '']
+    with open(os.path.join(DICOM_OUT, sub, 'README.txt'), 'w') as fh:
+        fh.write('\n'.join(readme))
+    with zipfile.ZipFile(os.path.join(DICOM_OUT, sub, 'dicom-samples.zip'), 'w', zipfile.ZIP_DEFLATED) as z:
+        for name in [f['file'] for f in files] + ['README.txt']:
+            z.write(os.path.join(DICOM_OUT, sub, name), name)
+    json.dump({'files': files}, open(os.path.join(DICOM_OUT, sub, 'manifest.json'), 'w'), indent=1)
+    json.dump({'files': files}, open(out('dicom_examples', 'samples.json'), 'w'), indent=1)
+    for f in files:
+        print(f"samples: {f['file']:38s} {f['bytes'] / 1e6:5.2f} MB  {f['tags'].get('Modality')}  {f['title']}")
+    print('zip', round(os.path.getsize(os.path.join(DICOM_OUT, sub, 'dicom-samples.zip')) / 1e6, 2), 'MB')
 
 
 if __name__ == '__main__':

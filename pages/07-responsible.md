@@ -22,6 +22,7 @@ clicks: 2
 tag: real-data
 tagText: 'from this session’s own datasets'
 sources: [fedorov2018lidcdicom, demnerfushman2016iu, armato2011lidc]
+links: [lidc, iu]
 ---
 
 ::title::
@@ -33,6 +34,7 @@ sources: [fedorov2018lidcdicom, demnerfushman2016iu, armato2011lidc]
 <!--
 **Time:** ~2.5 min
 **Objective:** Show label disagreement, label noise and representativeness with this session's data.
+**Background:** *Label noise*: labels taken from reports or from one reader contain errors and disagreement. *Shortcut learning*: a model uses a clue that is not the disease, such as a hospital's text marker or a chest drain that shows the patient was already treated.
 **Say:** Three problems, all from the data we used today. Experts disagree: the four radiologists rated our patient's nodule 5, 5, 5 and 4 for malignancy, and anywhere from 3 to 5 for spiculation; their outlines differ in volume by more than a cubic centimetre. [click] Labels taken from text are noisy: this X-ray was labelled "cardiomegaly" from its report keywords, but the report says the heart is at the upper limit of normal. [click] And who is in the data? Our X-ray, CT and MRI data all come from US hospitals. A model learns the population it saw.
 **Example:** If the training answer key is uncertain, the model's "accuracy" is uncertain too.
 **Try / Notice:** None.
@@ -61,6 +63,7 @@ sources: [zech2018generalization, degrave2021shortcuts, geirhos2020shortcut]
 <!--
 **Time:** ~2.5 min
 **Objective:** Show domain shift with a real measurement and a published example.
+**Background:** *Domain shift*: different scanner makes, X-ray settings (kVp), reconstruction kernels (sharp/smooth), patient groups or hospitals change the images slightly; a model's accuracy can drop without any warning. Remedy: validate locally before use and monitor afterwards.
 **Say:** Here is our cardiomegaly test from Part 3, AUROC 0.90. [click] Now we change the same images slightly, as a different scanner or setting might: darker, lower contrast, blurred, lower resolution. Same patients, same hearts. The AUROC drops step by step, to about 0.85 at low resolution. Nobody would notice by looking at the score of a single image. [click] In practice it is worse. A study of chest X-ray models found that networks could tell which hospital an image came from 99.95% of the time, and pneumonia models performed worse at hospitals they had not seen. Models also pick up shortcuts: markers, text, positioning.
 **Example:** A student who learned to spot pneumonia from the portable X-ray machine's label, not from the lungs.
 **Try / Notice:** The bars shrink from left to right.
@@ -83,6 +86,7 @@ sources: [dpdp2023act, pib2025dpdprules, cdsco2026mdsw, dicomstandard]
 <!--
 **Time:** ~2.5 min
 **Objective:** Set out the duties before patient images reach any AI system.
+**Background:** DICOM headers carry names, dates and IDs; burned-in text can appear in the pixels; a head CT or MRI can be rendered into a recognisable face (hence 'defaced' datasets). India: the DPDP Act 2023 and its Rules govern personal data; CDSCO regulates software that diagnoses as a medical device.
 **Say:** Four duties. First, de-identify: blank the identifying tags, mask burned-in text, as we did with two letters on our patient's X-ray, and remember that a head CT can be turned back into a face. [click] Second, protect: never upload patient files to public AI tools or online notebooks. [click] Third, follow the law. In India, the Digital Personal Data Protection Act of 2023 covers personal data, and its Rules were notified in November 2025, coming into force in phases over 18 months. [click] Fourth, regulation: software meant for diagnosis can be a medical device. CDSCO published guidance on medical device software under the Medical Devices Rules in July 2026.
 **Example:** Public datasets like ours were de-identified by their publishers; hospital files are not.
 **Try / Notice:** None.
@@ -98,6 +102,7 @@ layout: artifact
 clicks: 4
 tag: simulated
 sources: [fedorov2018lidcdicom, tu2024medpalmm]
+links: [lidc]
 ---
 
 ::title::
@@ -109,6 +114,7 @@ sources: [fedorov2018lidcdicom, tu2024medpalmm]
 <!--
 **Time:** ~2.5 min
 **Objective:** Practise validation and human oversight of generated text; discuss explainability.
+**Background:** Spiculated = spiky margin; 'no change from prior' needs a prior study; 'no effusion' must be checked on the image. The habit: every sentence of a generated report should point to evidence in the image or record.
 **Say:** Imagine an assistant wrote this report for our patient. Check it sentence by sentence. [click] "A 3 cm spiculated mass in the left lower lobe": supported; the CT shows it and four radiologists measured 32 to 34 millimetres. [click] "Suspicious for malignancy": supported by three of four readers, but it still needs a biopsy. [click] "No enlarged lymph nodes": nobody in our data checked that; a person must look. [click] "Unchanged since the previous scan": there is no previous scan. Invented. One invented sentence is enough to change management.
 **Example:** Explanations such as heat maps can help a reviewer, but they show where a model looked, not whether it is right.
 **Try / Notice:** Click any sentence to see its evidence.
@@ -130,6 +136,7 @@ clicks: 1
 <!--
 **Time:** ~2.5 min
 **Objective:** Consolidate the session and open questions; take questions.
+**Background:** The orange button opens the DICOM notebook in Google Colab (free, no GPU, about two minutes). Participants can scan the QR code with a phone and run it later; it uses only public, de-identified data.
 **Say:** Four things to remember. Multimodal AI works by turning images and words into numbers that can be compared. The details of how medical images are stored, such as units, slice order and windows, change the results. Wording, preparation and changes in the data all move the scores. And a score is not a diagnosis: validate locally and keep a clinician in charge. [click] And for researchers in the room, four open problems worth working on, starting with models trained and tested on our own patients and scanners. The notebook and all the data sources are yours to take away. Questions?
 **Example:** The companion notebook reproduces every real number in this deck.
 **Try / Notice:** None.

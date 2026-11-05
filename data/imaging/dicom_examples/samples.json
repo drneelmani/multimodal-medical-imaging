@@ -1,0 +1,136 @@
+{
+ "files": [
+  {
+   "file": "ct-lidc-0001-upper-abdomen.dcm",
+   "bytes": 526560,
+   "tags": {
+    "Modality": "CT",
+    "Rows": 512,
+    "Columns": 512,
+    "BitsStored": 16,
+    "PhotometricInterpretation": "MONOCHROME2",
+    "SamplesPerPixel": 1,
+    "PixelSpacing": [
+     0.703125,
+     0.703125
+    ],
+    "RescaleSlope": 1.0,
+    "RescaleIntercept": -1024.0,
+    "WindowCenter": -600.0,
+    "WindowWidth": 1600.0,
+    "Manufacturer": "GE MEDICAL SYSTEMS",
+    "PatientID": "LIDC-IDRI-0001",
+    "BodyPartExamined": "CHEST"
+   },
+   "pixels": {
+    "min": -2048.0,
+    "max": 1152.0,
+    "mean": -793.25
+   },
+   "title": "CT, upper abdomen (same patient as the viewer)",
+   "source": "LIDC-IDRI (TCIA)",
+   "url": "https://www.cancerimagingarchive.net/collection/lidc-idri/",
+   "licence": "CC BY 3.0"
+  },
+  {
+   "file": "mri-t1-contrast-upenn-00001.dcm",
+   "bytes": 101414,
+   "tags": {
+    "Modality": "MR",
+    "Rows": 256,
+    "Columns": 192,
+    "BitsStored": 16,
+    "PhotometricInterpretation": "MONOCHROME2",
+    "SamplesPerPixel": 1,
+    "PixelSpacing": [
+     0.9765625,
+     0.9765625
+    ],
+    "RescaleSlope": 1.0,
+    "RescaleIntercept": 0.0,
+    "WindowCenter": 600.0,
+    "WindowWidth": 1273.0,
+    "Manufacturer": "SIEMENS",
+    "SeriesDescription": "t1 axial stealth-post : Processed_CaPTk",
+    "PatientID": "UPENN-GBM-00001",
+    "BodyPartExamined": "BRAIN"
+   },
+   "pixels": {
+    "min": 0.0,
+    "max": 2212.0,
+    "mean": 219.613
+   },
+   "title": "Brain MRI, T1 after contrast",
+   "source": "UPENN-GBM (TCIA)",
+   "url": "https://www.cancerimagingarchive.net/collection/upenn-gbm/",
+   "licence": "CC BY 4.0"
+  },
+  {
+   "file": "mammo-cmmd-d2-0333-second-view.dcm",
+   "bytes": 276390,
+   "tags": {
+    "Modality": "MG",
+    "Rows": 573,
+    "Columns": 478,
+    "BitsStored": 8,
+    "PhotometricInterpretation": "MONOCHROME2",
+    "SamplesPerPixel": 1,
+    "ImagerPixelSpacing": [
+     0.376364,
+     0.376364
+    ],
+    "RescaleSlope": 1.0,
+    "RescaleIntercept": 0.0,
+    "ImageLaterality": "R",
+    "WindowCenter": 128.0,
+    "WindowWidth": 256.0,
+    "Manufacturer": "",
+    "PatientID": "D2-0333",
+    "BodyPartExamined": "BREAST"
+   },
+   "pixels": {
+    "min": 0.0,
+    "max": 226.0,
+    "mean": 23.193
+   },
+   "title": "Mammogram, cranio-caudal view (same breast as the viewer)",
+   "source": "CMMD (TCIA)",
+   "url": "https://www.cancerimagingarchive.net/collection/cmmd/",
+   "licence": "CC BY 4.0"
+  },
+  {
+   "file": "pet-fdg-abdomen.dcm",
+   "bytes": 324660,
+   "tags": {
+    "Modality": "PT",
+    "Rows": 400,
+    "Columns": 400,
+    "BitsStored": 16,
+    "PhotometricInterpretation": "MONOCHROME2",
+    "SamplesPerPixel": 1,
+    "PixelSpacing": [
+     2.03642,
+     2.03642
+    ],
+    "RescaleSlope": 0.247191,
+    "RescaleIntercept": 0.0,
+    "Units": "BQML",
+    "WindowCenter": 8100.0,
+    "WindowWidth": 16199.0,
+    "Manufacturer": "SIEMENS",
+    "SeriesDescription": "PET corr.",
+    "PatientID": "PETCT_b899150306",
+    "BodyPartExamined": "WHOLEBODY"
+   },
+   "pixels": {
+    "min": 0.0,
+    "max": 16199.662,
+    "mean": 313.575
+   },
+   "title": "FDG PET, abdomen (liver, kidneys)",
+   "source": "FDG-PET-CT-Lesions (TCIA)",
+   "url": "https://www.cancerimagingarchive.net/collection/fdg-pet-ct-lesions/",
+   "licence": "CC BY 4.0"
+  }
+ ]
+}

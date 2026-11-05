@@ -36,6 +36,8 @@ function visibleWords(md) {
   return text.split(/\s+/).filter(w => /[A-Za-z]/.test(w)).length
 }
 
+const linkKeys = new Set([...readFileSync('data/links.ts', 'utf8').matchAll(/key:\s*'([^']+)'/g)].map(m => m[1]))
+
 const perSection = {}
 core.forEach((s, i) => {
   const no = i + 1
@@ -50,6 +52,7 @@ core.forEach((s, i) => {
   for (const k of src) if (!keys.has(k)) problems.push(`Slide ${no}: unknown source key ${k}`)
   for (const m of (s.content ?? '').matchAll(/<Cite\s+k="([^"]+)"/g))
     if (!src.includes(m[1])) problems.push(`Slide ${no}: <Cite k="${m[1]}"> not listed in frontmatter sources`)
+  for (const k of fm.links ?? []) if (!linkKeys.has(k)) problems.push(`Slide ${no}: unknown link key ${k} (data/links.ts)`)
   if (fm.tag && !TAGS.includes(fm.tag)) problems.push(`Slide ${no}: unknown honesty tag ${fm.tag}`)
   if (fm.tag === 'actual') {
     if (!fm.run) problems.push(`Slide ${no}: tag "actual" needs a \`run:\` file in data/runs/`)

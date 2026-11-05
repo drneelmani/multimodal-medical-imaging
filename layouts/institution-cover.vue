@@ -4,7 +4,8 @@ import srhu from '../assets/logos/srhu-naac.png'
 import iitr from '../assets/logos/iit-roorkee.png'
 
 // Institutional cover, matching the AI-model-evaluation deck's cover (logos, session title, centre,
-// presenter, affiliation, date, navy band). Built on that deck's 1280×720 canvas and scaled to
+// presenter, affiliation, date, navy band), in the E&ICT Academy IIT Roorkee colours: navy #1E3A8A,
+// blue #2563EB, logo green #04A545 (from eict.iitr.ac.in). Built on that deck's 1280×720 canvas and scaled to
 // this deck's 980px canvas so proportions match exactly. Text comes from frontmatter.
 // `programme` is the event line above the title; `band` is the white text in the navy band.
 withDefaults(defineProps<{
@@ -64,25 +65,25 @@ withDefaults(defineProps<{
 .cvlogo.c img { height: 172px; width: auto; }
 .cvlogo.r img { height: 140px; width: auto; }
 .cvprog {
-  margin-top: 10px; flex: none; font-size: 21px; font-weight: 600; letter-spacing: 0.01em; color: #2E74B5;
-  padding: 6px 22px; border: 1.5px solid #2E74B5; border-radius: 999px;
+  margin-top: 10px; flex: none; font-size: 21px; font-weight: 600; letter-spacing: 0.01em; color: #037A33;
+  padding: 6px 22px; border: 2px solid #04A545; border-radius: 999px; background: #ECFDF5;
 }
 .cvtitle {
   font-family: 'Inter Cover', Inter, system-ui, sans-serif; font-size: 44px; font-weight: 700;
-  letter-spacing: -0.012em; line-height: 1.15; color: #1F3864; margin: 18px 0 0; max-width: 1100px; flex: none;
+  letter-spacing: -0.012em; line-height: 1.15; color: #1E3A8A; margin: 18px 0 0; max-width: 1100px; flex: none;
 }
 .cvcentre {
   font-family: Georgia, 'Times New Roman', serif; font-size: 27px; line-height: 1.2; color: #0E161E;
-  margin-top: 44px; padding: 0 32px 9px; border-bottom: 2px solid #0E161E; flex: none;
+  margin-top: 44px; padding: 0 32px 9px; border-bottom: 3px solid #04A545; flex: none;
 }
-.cvname { font-size: 22px; font-weight: 700; color: #1F3864; margin-top: 10px; flex: none; }
+.cvname { font-size: 22px; font-weight: 700; color: #1E3A8A; margin-top: 10px; flex: none; }
 .cvaff {
   display: flex; flex-direction: column; gap: 3px; margin-top: 5px; flex: none;
-  font-size: 14.5px; font-weight: 700; color: #2E74B5; line-height: 1.35;
+  font-size: 14.5px; font-weight: 700; color: #2563EB; line-height: 1.35;
 }
-.cvdate { font-size: 19px; color: #0E161E; margin-top: 8px; flex: none; }
+.cvdate { font-size: 21px; font-weight: 700; color: #1E3A8A; margin-top: 12px; flex: none; padding: 4px 18px; border-left: 4px solid #04A545; border-right: 4px solid #04A545; }
 .cvband {
-  position: absolute; left: 285px; right: 0; bottom: 0; height: 44px; background: #1F3864;
+  position: absolute; left: 285px; right: 0; bottom: 0; height: 44px; background: linear-gradient(90deg, #0A033C 0%, #1E3A8A 45%, #2563EB 100%);
   display: flex; align-items: center; justify-content: center; padding: 0 24px;
   color: #fff; font-size: 16px; font-weight: 600; letter-spacing: 0.01em; white-space: nowrap;
 }

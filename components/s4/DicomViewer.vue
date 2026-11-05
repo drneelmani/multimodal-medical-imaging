@@ -5,10 +5,13 @@ import { type Dicom, loadDicom } from '../../composables/dicom'
 import { drawGrey, drawRGB, percentileWindow, pub } from '../../composables/draw'
 import { rafThrottle } from '../../composables/raf'
 import manifest from '../../data/imaging/dicom_examples/manifest.json'
+import samples from '../../data/imaging/dicom_examples/samples.json'
+import ZoomPane from '../ui/ZoomPane.vue'
 
 // Artifact 25 — a real DICOM viewer in the slide. Each click opens the next real file (teaching copies
 // of public TCIA data); tags are read from the file itself, not from a table. Participants can also open
-// their own .dcm file: it is read in the browser and never uploaded. clicks: 5
+// their own .dcm file: it is read in the browser and never uploaded. Four more real files (not shown
+// here) can be downloaded as a zip to try that, each with its TCIA source. clicks: 5
 const FILES = ['ct-lidc-0001.dcm', 'xray-lidc-0001.dcm', 'mri-flair-upenn-00001.dcm', 'mammo-cmmd-d2-0333.dcm', 'pet-fdg-lung.dcm', 'us-liver-ceus.dcm']
 const LABEL: Record<string, string> = { 'ct-lidc-0001.dcm': 'CT', 'xray-lidc-0001.dcm': 'X-ray', 'mri-flair-upenn-00001.dcm': 'MRI', 'mammo-cmmd-d2-0333.dcm': 'Mammogram', 'pet-fdg-lung.dcm': 'PET', 'us-liver-ceus.dcm': 'Ultrasound' }
 const { step } = useStep(FILES.length - 1)
@@ -21,7 +24,8 @@ const width = ref(1)
 // Slider ranges are fixed for each file (from its actual values), so the thumb follows the pointer
 const range = ref({ lo: 0, hi: 1 })
 const cv = ref<HTMLCanvasElement>()
-const credit = computed(() => (manifest.files as any[]).find(f => f.file === name.value)?.credit ?? 'Your own file, read in this browser only')
+const sample = (n: string) => (samples.files as any[]).find(f => f.file === n)
+const credit = computed(() => (manifest.files as any[]).find(f => f.file === name.value)?.credit ?? (sample(name.value) ? `${sample(name.value).title} · ${sample(name.value).source} · ${sample(name.value).licence}` : 'Your own file, read in this browser only'))
 
 async function open(src: string | File, label: string) {
   err.value = ''
@@ -72,7 +76,7 @@ const pick = (e: Event) => { const f = (e.target as HTMLInputElement).files?.[0]
 <template>
   <div class="dv">
     <div class="pic">
-      <div class="mat"><canvas ref="cv" /></div>
+      <div class="mat"><ZoomPane><div class="cen"><canvas ref="cv" /></div></ZoomPane></div>
       <p class="credit">{{ credit }}</p>
     </div>
     <div class="side">
@@ -92,6 +96,10 @@ const pick = (e: Event) => { const f = (e.target as HTMLInputElement).files?.[0]
         <a v-if="FILES.includes(name)" :href="pub(`dicom/${name}`)" :download="name">Download this .dcm</a>
         <label class="own">Open your own .dcm <input type="file" accept=".dcm,application/dicom" @change="pick"></label>
       </div>
+      <p class="try">
+        No file to hand? <a :href="pub('dicom/samples/dicom-samples.zip')" download>4 sample .dcm files (zip, 0.5 MB)</a>: CT abdomen, MRI with contrast, mammogram, PET. From TCIA:
+        <a v-for="s in samples.files" :key="s.file" :href="s.url" target="_blank" rel="noopener" class="src">{{ s.source.replace(' (TCIA)', '') }} ↗</a>
+      </p>
     </div>
   </div>
 </template>
@@ -99,6 +107,7 @@ const pick = (e: Event) => { const f = (e.target as HTMLInputElement).files?.[0]
 <style scoped>
 .dv { display: grid; grid-template-columns: 330px 1fr; gap: 30px; align-items: start; }
 .mat { width: 330px; height: 330px; background: var(--image-mat); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.cen { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
 .mat canvas { max-width: 100%; max-height: 100%; }
 .credit { font-size: var(--fs-micro); color: var(--ink-3); margin: 6px 0 0; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
@@ -111,5 +120,7 @@ const pick = (e: Event) => { const f = (e.target as HTMLInputElement).files?.[0]
 .files { display: flex; gap: 18px; margin-top: 10px; font-size: 15px; align-items: center; }
 .own { color: var(--accent); cursor: pointer; text-decoration: underline; }
 .own input { display: none; }
+.try { font-size: 13px; color: var(--ink-2); margin: 8px 0 0; line-height: 1.4; }
+.try .src { margin-left: 6px; white-space: nowrap; }
 .err { color: var(--bad); font-size: 15px; }
 </style>

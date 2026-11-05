@@ -7,6 +7,7 @@ import volUrl from '../../data/imaging/ct/volume_u8.bin?url'
 import labUrl from '../../data/imaging/ct/labels_u8.bin?url'
 import meta from '../../data/imaging/ct/meta.json'
 import seg from '../../data/runs/segmentation.json'
+import ZoomPane from '../ui/ZoomPane.vue'
 
 // Artifact 19 — TotalSegmentator's real output on our patient's CT. Clicks add structure groups;
 // toggles, opacity and the slice slider work freely. Volumes come from the full-resolution labels. clicks: 3
@@ -45,7 +46,7 @@ watch([vol, lab, cv, shown, z, alpha], rafThrottle(draw), { flush: 'post' })
 <template>
   <div class="so">
     <div class="pic">
-      <canvas ref="cv" :width="X" :height="Y" />
+      <div class="cvbox"><ZoomPane><canvas ref="cv" :width="X" :height="Y" /></ZoomPane></div>
       <label class="ctl">Slice <input v-model.number="z" type="range" min="0" :max="Z - 1" @keydown.stop></label>
       <label class="ctl">Opacity <input v-model.number="alpha" type="range" min="0" max="1" step="0.05" @keydown.stop></label>
     </div>
@@ -56,13 +57,15 @@ watch([vol, lab, cv, shown, z, alpha], rafThrottle(draw), { flush: 'post' })
         <span class="v">{{ g.volume_ml >= 1000 ? `${(g.volume_ml / 1000).toFixed(1)} L` : `${Math.round(g.volume_ml)} ml` }}</span>
       </button>
       <p class="note">117 structures found automatically; grouped here into seven</p>
+      <p class="note units"><strong>ml</strong> = millilitre (1 cm³); <strong>L</strong> = 1,000 ml. Volume = outlined voxels (3D pixels) × one voxel’s volume.</p>
     </div>
   </div>
 </template>
 
 <style scoped>
 .so { display: grid; grid-template-columns: 340px 1fr; gap: 36px; align-items: center; }
-.pic canvas { width: 340px; height: 340px; border-radius: var(--radius); display: block; background: var(--image-mat); }
+.cvbox { width: 340px; height: 340px; border-radius: var(--radius); overflow: hidden; background: var(--image-mat); }
+.pic canvas { width: 100%; height: 100%; display: block; }
 .pic .ctl { margin-top: 6px; font-size: 16px; }
 .pic .ctl input { width: 230px; }
 .side { display: flex; flex-direction: column; gap: 6px; }
@@ -72,4 +75,5 @@ watch([vol, lab, cv, shown, z, alpha], rafThrottle(draw), { flush: 'post' })
 .n { font-size: var(--fs-label); }
 .v { font: 500 var(--fs-label) var(--font-mono); }
 .note { font-size: 15px; color: var(--ink-2); margin: 8px 0 0; }
+.units { color: var(--ink); line-height: 1.35; }
 </style>

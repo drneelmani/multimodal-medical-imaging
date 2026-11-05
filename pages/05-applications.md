@@ -23,6 +23,7 @@ tag: actual
 tagText: 'BiomedCLIP on two IU chest X-rays'
 run: biomedclip_ranking.json
 sources: [demnerfushman2016iu, zhang2025biomedclip, tiu2022chexzero]
+links: [iu, biomedclip, chexzero]
 ---
 
 ::title::
@@ -42,6 +43,7 @@ sources: [demnerfushman2016iu, zhang2025biomedclip, tiu2022chexzero]
 <!--
 **Time:** ~1.5 min
 **Objective:** Apply zero-shot matching to chest X-rays, with one real success and one real failure.
+**Background:** Common findings: *pleural effusion* (fluid between lung and chest wall, a white area at the base), *pneumothorax* (air outside the lung, which collapses it; can be an emergency), *cardiomegaly* (enlarged heart), *consolidation/pneumonia* (white patches), *mass/nodule*. Triage = sorting worklists so urgent cases are read first.
 **Say:** The scenario: X-rays waiting overnight for a report. [click] A CLIP-style model compares each image with descriptions of common findings, as CheXzero does. [click] Out comes a ranked list, which could reorder the reading queue. [click] The benefit: an obviously enlarged heart can be seen sooner. [click] The limit, from our own run: on the left the model's top match agreed with the report; on the right, an X-ray reported as showing pleural effusions came out as "normal". Across 1,262 X-rays with a single finding, its top choice matched 90% of the normal reports but only 7 of 25 enlarged hearts. It mostly says "normal".
 **Example:** Triage, not diagnosis: deciding the order of reading, not the result.
 **Try / Notice:** Green caption = matches the report; red = does not.
@@ -59,6 +61,7 @@ tag: actual
 tagText: 'TotalSegmentator on our patient’s CT'
 run: segmentation.json
 sources: [wasserthal2023totalseg, lidc2015data]
+links: [lidc, totalseg]
 ---
 
 ::title::
@@ -78,6 +81,7 @@ sources: [wasserthal2023totalseg, lidc2015data]
 <!--
 **Time:** ~2 min
 **Objective:** Show anatomical segmentation as an application, with a real run and a real limitation.
+**Background:** Volume = number of voxels in the outline × the volume of one voxel (pixel width × pixel height × slice spacing, all in mm, ÷ 1000 for ml). 1 ml = 1 cm³; 1 L = 1,000 ml. Organ volumes are used in radiotherapy planning (dose limits to organs) and to follow disease; TotalSegmentator outlines anatomy, not disease.
 **Say:** Radiotherapy and surgical planning need outlines of organs. [click] TotalSegmentator outlines over a hundred structures in a CT without any prompt. [click] For our patient: lungs 3.7 litres, heart 370 millilitres. [click] Work that takes hours by hand takes about a minute on a GPU. [click] But it outlines anatomy, not disease. The nodule sits entirely inside the "lung" label: 99.9% of it. A volume calculated from this mask would silently include the tumour.
 **Example:** A very fast anatomy student who has never been taught pathology.
 **Try / Notice:** Blue = lungs, red = heart, orange = aorta, yellow = spine.
@@ -94,6 +98,7 @@ clicks: 3
 tag: real-data
 tagText: 'FDG-PET-CT-Lesions: real PET, CT and expert outline (DICOM)'
 sources: [gatidis2022fdgpetct, boellaard2015petguideline]
+links: [petct]
 ---
 
 ::title::
@@ -105,6 +110,7 @@ sources: [gatidis2022fdgpetct, boellaard2015petguideline]
 <!--
 **Time:** ~2 min
 **Objective:** Show PET/CT as multimodal imaging: anatomy and function combined.
+**Background:** The scanner takes a CT (anatomy) and a PET (metabolism) in one session, so they line up. The small whole-body picture is a *maximum-intensity projection* (MIP): for every line of sight from the front, the brightest PET value is kept, so it summarises all slices and does not change with the slider; the yellow line marks the slice on the left. Dark = high uptake. Normally high: brain, heart (uses glucose), kidneys and bladder (FDG leaves in the urine). The tumour cluster in the chest is abnormal. *Metabolic tumour volume* = volume of the outlined tumour in ml.
 **Say:** A PET/CT scanner takes two images in one session. CT shows anatomy, in Hounsfield units. [click] PET shows where sugar is being used, in SUV: tumours are greedy. On its own, PET shows a hot spot but not exactly where it is. [click] Fused, the hot spot gets an address: next to the airways in the chest. Because both files share a frame of reference, they line up without any registration. [click] The cyan line is an expert's outline of the tumour, stored as a DICOM SEG: SUVmax 18, about 134 millilitres. On the right, the whole-body view: darker means more uptake; the brain, heart and bladder are normal, the chest is not.
 **Example:** The PET says "something is burning", the CT says "on the third floor, room 12".
 **Try / Notice:** Move the PET opacity slider; point at the image to read HU and SUV together.
@@ -121,6 +127,7 @@ clicks: 4
 tag: real-data
 tagText: 'UPENN-GBM-00001, four registered sequences'
 sources: [bakas2021upenndata, bakas2022upenn]
+links: [upenn]
 ---
 
 ::title::
@@ -150,6 +157,7 @@ sources: [bakas2021upenndata, bakas2022upenn]
 <!--
 **Time:** ~1.5 min
 **Objective:** Connect multi-sequence MRI to multimodal fusion.
+**Background:** Tumour models (e.g. those from the BraTS challenges) take T1, T1+contrast, T2 and FLAIR together and output three regions: enhancing tumour, necrotic core and oedema. Measurements are repeated over months to judge response to treatment.
 **Say:** A brain tumour is followed over months, so measurements must be consistent. [click] Tumour models read all four sequences at once. Each sequence is, in effect, a different modality. [click] Out come outlines of the active tumour, dead tissue and swelling. [click] The benefit is a consistent measurement at every visit. [click] The limit is the fusion problem from Part 2: if one sequence is missing, or the hospital names it differently, the model may fail or quietly produce nonsense.
 **Example:** The four images here are one real patient, aligned in our notebook.
 **Try / Notice:** The swelling is bright on T2 and FLAIR, but not on T1.
@@ -167,6 +175,7 @@ tag: actual
 tagText: 'BiomedCLIP + small classifier on CRC-VAL-HE-7K'
 run: biomedclip_fewshot_crc.json
 sources: [kather2018crcdata, kather2019crc, zhang2025biomedclip]
+links: [crc, biomedclip]
 ---
 
 ::title::
@@ -186,6 +195,7 @@ sources: [kather2018crcdata, kather2019crc, zhang2025biomedclip]
 <!--
 **Time:** ~1.5 min
 **Objective:** Apply image models to digital pathology.
+**Background:** A whole-slide image is a scanned microscope slide, often 100,000 × 100,000 pixels (gigapixels), so it is cut into small tiles (here 224 × 224). H&E staining: nuclei purple, the rest pink. The output is a map of tissue types across the slide.
 **Say:** Pathology slides are scanned at microscope resolution, far too large to analyse in one piece. [click] So the slide is cut into many small tiles, and each tile is classified. [click] The output is a map of tissue types across the slide. [click] Our own result: with only ten labelled tiles per class on top of BiomedCLIP, 91% of 900 test tiles were classified correctly. [click] The limit: staining and scanners differ between laboratories, and tiles from a new lab can look different enough to confuse the model.
 **Example:** The four tiles: tumour, stroma, lymphocytes and normal mucosa.
 **Try / Notice:** None.
@@ -203,6 +213,7 @@ tag: actual
 tagText: 'BiomedCLIP zero-shot on 200 FIVES photographs'
 run: biomedclip_fives.json
 sources: [jin2022fives, zhang2025biomedclip]
+links: [fives, biomedclip]
 ---
 
 ::title::
@@ -231,6 +242,7 @@ sources: [jin2022fives, zhang2025biomedclip]
 <!--
 **Time:** ~1.5 min
 **Objective:** Show a strong application area and a clear failure of zero-shot use.
+**Background:** A fundus photograph is taken through the pupil. The retina's vessels can be seen directly, so diabetes and high blood pressure leave visible damage. FIVES labels four groups: normal, diabetic retinopathy, glaucoma and age-related macular degeneration (AMD).
 **Say:** Diabetic eye disease can be caught with a simple photograph. [click] AI can outline the vessels, as this expert did by hand, and look for damage. [click] The output is a vessel map and a referral grade. [click] This is valuable where eye specialists are scarce. [click] But a general model is not enough. We asked BiomedCLIP, zero-shot, to tell apart four diagnoses in 200 photographs: 27% correct, where guessing scores 25%. It has not learned retinal disease from its training data.
 **Example:** Dedicated retinal models trained on graded photographs are what is used in screening programmes.
 **Try / Notice:** The vessel outline is the kind of label such models learn from.
@@ -247,6 +259,7 @@ clicks: 4
 tag: real-data
 tagText: 'HC18 fetal ultrasound with expert outline'
 sources: [vandenheuvel2018hc18]
+links: [hc18]
 ---
 
 ::title::
@@ -266,6 +279,7 @@ sources: [vandenheuvel2018hc18]
 <!--
 **Time:** ~1 min
 **Objective:** Apply measurement AI to ultrasound.
+**Background:** *Head circumference (HC)*, measured on a standard ultrasound plane, is used to estimate gestational age and check growth. The dataset gives each image's pixel size in mm, so the fitted ellipse's perimeter becomes millimetres.
 **Say:** Ultrasound is live, cheap and everywhere, but it depends on the person holding the probe. [click] In this public challenge dataset, the task is to outline the baby's head and fit an ellipse. [click] The output is the head circumference in millimetres: 71.9 for this image, from the expert's outline. [click] Automating it makes measurements faster and more consistent. [click] But if the operator captures a poor view, no model can rescue the measurement.
 **Example:** The yellow ellipse is the expert's outline from the dataset.
 **Try / Notice:** None.
@@ -283,6 +297,7 @@ tag: actual
 tagText: 'BiomedCLIP search across IU chest X-rays'
 run: biomedclip_retrieval.json
 sources: [demnerfushman2016iu, zhang2025biomedclip]
+links: [iu, biomedclip]
 ---
 
 ::title::
@@ -294,6 +309,7 @@ sources: [demnerfushman2016iu, zhang2025biomedclip]
 <!--
 **Time:** ~1 min
 **Objective:** Show image–text retrieval: finding similar cases by description.
+**Background:** Clinical use: finding similar past cases for teaching or research ('show me X-rays with an enlarged heart') without manual labels. Retrieval quality is measured by how many of the top results are correct (precision at k).
 **Say:** Because images and sentences share one space, we can search images with words. Here the query is "a chest X-ray showing an enlarged heart", run against the X-rays from our earlier test. [click] These are the five images whose fingerprints point most nearly the same way as the sentence. [click] And here is what their reports said: all five were reported with an enlarged heart.
 **Example:** Teaching files: "show me five examples of cardiomegaly" from your own archive.
 **Try / Notice:** The scores are close together; the ranking matters, not the values.
@@ -330,6 +346,7 @@ sources: [huang2020fusion]
 <!--
 **Time:** ~1.5 min
 **Objective:** Give a balanced view of combining imaging with clinical history.
+**Background:** *Pack-years* = packs smoked per day × years smoked, the standard measure of smoking exposure. Pitfalls: history is often missing, written in free text, or recorded after the scan (leakage, e.g. a treatment code that reveals the diagnosis).
 **Say:** Adding the record is the most promising and the most difficult step. The promise: the same context a clinician uses, such as age, symptoms and an earlier scan, can make answers earlier and more specific, and can show change over time. The pitfalls: records are incomplete, as we saw in Part 2. Worse, notes can leak the answer: a note that says "suspected cancer, biopsy booked" lets a model look clever without reading the image at all. And every extra field is more personal data to protect.
 **Example:** A model that learns "patients with a biopsy order have cancer" has learned the hospital's workflow, not the disease.
 **Try / Notice:** None.

@@ -58,6 +58,10 @@ def core():
     tcia_series('UPENN-GBM', 'UPENN-GBM-00001', folder='upenn',
                 keep=lambda s: 'Processed' in s.get('SeriesDescription', ''),
                 name=lambda s: s['SeriesDescription'].split(':')[0].strip().replace(' ', '_').replace('-', ''))
+    # Its tumour outline on the T1 series (necrosis, oedema, enhancing edge): an AI segmentation from the
+    # BAMF AIMI annotations (doi:10.5281/zenodo.8345959, CC BY 4.0), served as DICOM SEG by Imaging Data Commons.
+    get('https://idc-open-data.s3.amazonaws.com/3855cff3-0604-4cb6-90de-64cf2dfd428c/3456d24b-3242-4d0b-aba6-19b1d7998336.dcm',
+        os.path.join(RAW, 'upenn', 'seg_aimi_t1.dcm'))
 
 
 def dicom_originals():

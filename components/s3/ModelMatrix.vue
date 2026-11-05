@@ -2,26 +2,28 @@
 import { computed, ref, watch } from 'vue'
 import { useStep } from '../../composables/useStep'
 import ModelCard from '../ui/ModelCard.vue'
+import { linkByKey } from '../../data/links'
 
 // Artifact 12 — which model does what. Grouped by task so no more than three rows show at once;
-// click a model for its card. Licences checked on the model pages and repositories, October 2026. clicks: 3
+// click a model for its card. Model names link to the model page; cards link the training data.
+// Licences checked on the model pages and repositories, October 2026. clicks: 3
 const { step } = useStep(3)
-interface M { name: string, io: string, lic: string, card: [string, string][] }
+interface M { name: string, io: string, lic: string, model: string, data: string, card: [string, string][] }
 const TASKS: { task: string, models: M[] }[] = [
   { task: 'Match images and text', models: [
-    { name: 'BiomedCLIP', io: 'image + text → similarity', lic: 'MIT', card: [['Trained on', '15 million figure–caption pairs from PubMed Central'], ['Good for', 'Search, zero-shot labels, fingerprints for other models'], ['Limits', 'Scores are not probabilities; figures differ from clinical images']] },
-    { name: 'MedCLIP', io: 'chest X-ray + text → similarity', lic: 'none stated', card: [['Trained on', 'Chest X-rays and texts that need not be paired'], ['Good for', 'Learning from smaller medical datasets'], ['Limits', 'Chest X-ray only; research code']] },
+    { name: 'BiomedCLIP', model: 'biomedclip', data: 'pmc15m', io: 'image + text → similarity', lic: 'MIT', card: [['Trained on', '15 million figure–caption pairs from PubMed Central'], ['Good for', 'Search, zero-shot labels, fingerprints for other models'], ['Limits', 'Scores are not probabilities; figures differ from clinical images']] },
+    { name: 'MedCLIP', model: 'medclip', data: 'mimiccxr', io: 'chest X-ray + text → similarity', lic: 'none stated', card: [['Trained on', 'Chest X-rays and texts that need not be paired'], ['Good for', 'Learning from smaller medical datasets'], ['Limits', 'Chest X-ray only; research code']] },
   ] },
   { task: 'Find conditions', models: [
-    { name: 'CheXzero', io: 'chest X-ray + prompts → scores', lic: 'MIT', card: [['Trained on', 'Chest X-rays and their reports, no hand labels'], ['Good for', 'Zero-shot detection of chest X-ray findings'], ['Limits', 'Chest X-ray only; accuracy varies by finding']] },
+    { name: 'CheXzero', model: 'chexzero', data: 'mimiccxr', io: 'chest X-ray + prompts → scores', lic: 'MIT', card: [['Trained on', 'Chest X-rays and their reports, no hand labels'], ['Good for', 'Zero-shot detection of chest X-ray findings'], ['Limits', 'Chest X-ray only; accuracy varies by finding']] },
   ] },
   { task: 'Outline structures', models: [
-    { name: 'MedSAM', io: 'image + box → outline', lic: 'Apache-2.0', card: [['Trained on', '1.57 million image–outline pairs, 10 kinds of scan'], ['Good for', 'Fast outlining when a person points to the target'], ['Limits', 'Needs a box; 2D slices; can miss fine edges']] },
-    { name: 'TotalSegmentator', io: 'CT → 100+ labelled structures', lic: 'Apache-2.0', card: [['Trained on', '1,204 CT scans with 104 outlined structures'], ['Good for', 'Organ volumes and anatomy, fully automatic'], ['Limits', 'Does not find disease; some extra tasks need a separate licence']] },
+    { name: 'MedSAM', model: 'medsam', data: 'medsamdata', io: 'image + box → outline', lic: 'Apache-2.0', card: [['Trained on', '1.57 million image–outline pairs, 10 kinds of scan'], ['Good for', 'Fast outlining when a person points to the target'], ['Limits', 'Needs a box; 2D slices; can miss fine edges']] },
+    { name: 'TotalSegmentator', model: 'totalseg', data: 'totalsegdata', io: 'CT → 100+ labelled structures', lic: 'Apache-2.0', card: [['Trained on', '1,204 CT scans with 104 outlined structures'], ['Good for', 'Organ volumes and anatomy, fully automatic'], ['Limits', 'Does not find disease; some extra tasks need a separate licence']] },
   ] },
   { task: 'Describe and answer', models: [
-    { name: 'LLaVA-Med', io: 'image + question → text', lic: 'Apache-2.0', card: [['Trained on', 'PubMed Central figures and captions, plus GPT-4-written dialogues'], ['Good for', 'Research on medical visual question answering'], ['Limits', 'Can write fluent, wrong text; research only']] },
-    { name: 'MedGemma', io: 'image + text → text', lic: 'HAI-DEF terms', card: [['Trained on', 'Medical images and text on top of Gemma 3'], ['Good for', 'Starting point for medical image–text applications'], ['Limits', 'Not for clinical use without validation; gated download']] },
+    { name: 'LLaVA-Med', model: 'llavamed', data: 'llavameddata', io: 'image + question → text', lic: 'Apache-2.0', card: [['Trained on', 'PubMed Central figures and captions, plus GPT-4-written dialogues'], ['Good for', 'Research on medical visual question answering'], ['Limits', 'Can write fluent, wrong text; research only']] },
+    { name: 'MedGemma', model: 'medgemma', data: 'medgemmadata', io: 'image + text → text', lic: 'HAI-DEF terms', card: [['Trained on', 'Medical images and text on top of Gemma 3'], ['Good for', 'Starting point for medical image–text applications'], ['Limits', 'Not for clinical use without validation; gated download']] },
   ] },
 ]
 const t = ref(0)
@@ -29,6 +31,7 @@ watch(step, s => { t.value = s }, { immediate: true })
 const open = ref<string | null>(null)
 watch(t, () => { open.value = null })
 const card = computed(() => TASKS[t.value].models.find(m => m.name === open.value))
+const url = (k: string) => linkByKey.get(k)!.url
 </script>
 
 <template>
@@ -41,12 +44,15 @@ const card = computed(() => TASKS[t.value].models.find(m => m.name === open.valu
         <thead><tr><th>Model</th><th>Input → output</th><th>Licence</th></tr></thead>
         <TransitionGroup tag="tbody" name="row">
           <tr v-for="m in TASKS[t].models" :key="m.name" :class="{ sel: open === m.name }" @click="open = m.name">
-            <td><strong>{{ m.name }}</strong></td><td>{{ m.io }}</td><td>{{ m.lic }}</td>
+            <td><a :href="url(m.model)" target="_blank" rel="noopener" class="mlink" @click.stop><strong>{{ m.name }}</strong> ↗</a></td><td>{{ m.io }}</td><td>{{ m.lic }}</td>
           </tr>
         </TransitionGroup>
       </table>
-      <div v-if="card" class="card"><h3>{{ card.name }}</h3><ModelCard :rows="card.card" /></div>
-      <p v-else class="hint">All are research models, not cleared medical devices.</p>
+      <div v-if="card" class="card">
+        <h3>{{ card.name }}</h3><ModelCard :rows="card.card" />
+        <p class="go"><a :href="url(card.model)" target="_blank" rel="noopener">Model page ↗</a><a :href="url(card.data)" target="_blank" rel="noopener">Training data: {{ linkByKey.get(card.data)!.label }} ↗</a></p>
+      </div>
+      <p v-else class="hint">All are research models, not cleared medical devices. Click a row for its card; click a name to open the model page.</p>
     </div>
   </div>
 </template>
@@ -63,4 +69,8 @@ tr.sel td { background: var(--accent-tint); }
 .row-enter-active { transition: opacity var(--dur) var(--ease); }
 .row-enter-from { opacity: 0; }
 .card :deep(.mc) { grid-template-columns: 100px 1fr; }
+.mlink { color: inherit !important; border-bottom: none !important; text-decoration: none !important; }
+.mlink:hover strong { text-decoration: underline; }
+.go { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 10px 0 0; font-size: 15px; }
+.go a { border-bottom: none !important; }
 </style>

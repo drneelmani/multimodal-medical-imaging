@@ -21,6 +21,7 @@ tag: actual
 tagText: 'run times measured in the notebook'
 run: notebook.json
 sources: [lidc2015data, zhang2025biomedclip, wasserthal2023totalseg, ma2024medsam]
+links: [lidc, biomedclip, medsam, totalseg]
 ---
 
 # Five workflows on real data
@@ -50,17 +51,19 @@ tag: actual
 tagText: 'notebook cell A1, as run'
 run: notebook.json
 sources: [dicomstandard, lidc2015data]
+links: [lidc]
 ---
 
 ::title::
 # Demo A1: read the files, then sort them by position
 
 ::default::
-<NotebookCell cell="A1" :lines="[4, 6, 7, 8, 11, 12, 13]" :steps="[[4, 6, 7, 8], [11, 12, 13]]" :out-lines="3" />
+<NotebookCell cell="A1" :lines="[4, 6, 7, 8, 11, 12, 13]" :steps="[[4, 6, 7, 8], [11, 12, 13]]" :out-lines="3" goal="read 133 CT files and put the slices in body order" use="every scan viewer and AI pipeline does this first" />
 
 <!--
 **Time:** ~2.5 min
 **Objective:** Load a DICOM series correctly.
+**Background:** z in ImagePositionPatient is the slice's height in the patient's coordinates, in mm (more negative = towards the feet here). InstanceNumber is a counter set by the scanner and is not guaranteed to follow position.
 **Say:** First we read only the headers of all 133 files, not the pixels; that is fast. Then we print the first four file names with their instance number and their height in the body. [click] As we saw in Part 4, they are scrambled. So we sort by the height stored in each file, ImagePositionPatient. [click] Here is the real output: file 1 is instance 80 at minus 207.5 millimetres, and after sorting the series runs from minus 340 to minus 10.
 **Example:** Rebuilding the dropped loaf of bread, slice by slice.
 **Try / Notice:** The z values in the output jump around before sorting.
@@ -81,17 +84,19 @@ tag: actual
 tagText: 'notebook cell A2, figure as produced'
 run: notebook.json
 sources: [lidc2015data]
+links: [lidc]
 ---
 
 ::title::
 # Demo A2: units first, then a window
 
 ::default::
-<NotebookCell cell="A2" :lines="[2, 3, 5, 6, 7]" :steps="[[2, 3], [5, 6, 7]]" figure />
+<NotebookCell cell="A2" :lines="[2, 3, 5, 6, 7]" :steps="[[2, 3], [5, 6, 7]]" figure goal="convert to Hounsfield units, then pick a window to view" use="radiologists switch lung and soft-tissue windows; models need fixed units" />
 
 <!--
 **Time:** ~1.5 min
 **Objective:** Convert to Hounsfield units and apply windows in code; distinguish visualisation from inference.
+**Background:** Three windows on one slice: lung (level −600 / width 1500), soft tissue (40 / 400), bone (400 / 1800). Same data, three pictures; which one a model sees is a choice in the code.
 **Say:** Two lines turn the stack of files into a volume in Hounsfield units: read the pixels, then multiply by the slope and add the intercept from the header. [click] And a window is just three lines: choose the lowest value to show, scale, and clip. [click] Here is the figure the notebook drew: lung, soft tissue and bone windows of the same slice. Nothing so far is AI. This is visualisation: it changes how we see, not what the data say.
 **Example:** The sliders from Part 4, now as code.
 **Try / Notice:** The nodule is visible in the lung and soft-tissue windows.
@@ -112,17 +117,19 @@ tag: actual
 tagText: 'notebook cell B1, as run'
 run: notebook.json
 sources: [zhang2025biomedclip]
+links: [biomedclip]
 ---
 
 ::title::
 # Demo B1: the model never sees DICOM
 
 ::default::
-<NotebookCell cell="B1" :lines="[5, 6, 7, 10, 11, 12, 13]" :steps="[[5, 6, 7], [10, 11, 12, 13]]" :out-lines="2" />
+<NotebookCell cell="B1" :lines="[5, 6, 7, 10, 11, 12, 13]" :steps="[[5, 6, 7], [10, 11, 12, 13]]" :out-lines="2" goal="turn the patient's DICOM X-ray into the picture the model expects" use="the preparation step inside every imaging AI product" />
 
 <!--
 **Time:** ~1.5 min
 **Objective:** Show the conversion from DICOM to a model input in code.
+**Background:** The X-ray is 14-bit; the model expects an 8-bit RGB picture of 224 × 224 pixels, normalised the way its training images were. The percentile window (keep 0.5–99.5%) replaces a radiologist's choice of window.
 **Say:** Three lines load BiomedCLIP and its own preprocessing, downloaded from its public page. [click] BiomedCLIP was trained on ordinary pictures, so we must convert our 14-bit DICOM X-ray ourselves: choose a window that keeps 99% of the values, make an 8-bit image, then let the model's preprocessing resize it to 224 by 224 and normalise it. The output confirms the shape: one image, three colour channels, 224 by 224.
 **Example:** The preparation pipeline from slide 40, in four lines of code.
 **Try / Notice:** Line 11: the window is our choice, and it affects every score that follows.
@@ -142,7 +149,8 @@ clicks: 2
 tag: actual
 tagText: 'BiomedCLIP fingerprints, scores recomputed live'
 run: biomedclip_ranking.json
-sources: [zhang2025biomedclip, demnerfushman2016iu, lidc2015data]
+sources: [zhang2025biomedclip, demnerfushman2016iu, lidc2015data, hansell2008fleischner]
+links: [lidc, iu, biomedclip]
 ---
 
 ::title::
@@ -154,6 +162,7 @@ sources: [zhang2025biomedclip, demnerfushman2016iu, lidc2015data]
 <!--
 **Time:** ~3 min
 **Objective:** Run image–text matching on real X-rays and read the ranking.
+**Background:** *Nodule* (our patient): a small round lump in the lung up to 3 cm; above 3 cm it is called a *mass*. The IU labels: normal, cardiomegaly (enlarged heart), pleural effusion (fluid around the lung), pneumothorax (collapsed lung). The bars are cosine scores, not probabilities. The 'As percentages (softmax)' button applies softmax with BiomedCLIP's own scale (×85): percentages add to 100% over the descriptions offered, so removing an option changes them. They are not the chance of disease.
 **Say:** For each X-ray, the model scores every description by cosine similarity. [click] The bars are real scores, recomputed in this page from the saved fingerprints. [click] Sorted, they become a ranking. For our patient, "a mass in the lung" comes first, but only just ahead of "normal". Switch to the IU X-rays: the normal one ranks "normal" first and the enlarged heart ranks "enlarged heart" first, but the effusions and the small pneumothorax are both called "normal".
 **Example:** Remove a description with the × and watch the ranking re-sort: the model can only choose among the options we give it.
 **Try / Notice:** Click the image buttons to switch X-rays; remove "a mass in the lung" for our patient and see what wins.
@@ -163,7 +172,7 @@ sources: [zhang2025biomedclip, demnerfushman2016iu, lidc2015data]
 **Expected observations:** Top for our patient: "a chest X-ray showing a mass in the lung" (0.405 in the notebook).
 **Likely failure modes:** Tokenizer download needs internet on first run.
 **Fallback:** This interactive slide.
-**Sources:** zhang2025biomedclip; demnerfushman2016iu; lidc2015data. Run: data/runs/biomedclip_ranking.json.
+**Sources:** zhang2025biomedclip; demnerfushman2016iu; lidc2015data; hansell2008fleischner — nodule up to 3 cm, mass above. Run: data/runs/biomedclip_ranking.json.
 -->
 
 ---
@@ -174,6 +183,7 @@ tag: actual
 tagText: 'from the notebook run and the slides’ run'
 run: notebook.json
 sources: [zhang2025biomedclip, demnerfushman2016iu]
+links: [iu, biomedclip]
 ---
 
 ::title::
@@ -185,6 +195,7 @@ sources: [zhang2025biomedclip, demnerfushman2016iu]
 <!--
 **Time:** ~2.5 min
 **Objective:** Show failure and ambiguity in real outputs.
+**Background:** A tiny cosine gap (0.004) becomes a large softmax gap because of the ×85 scale; that is 'overconfidence', not certainty. Small findings (a 3 mm pneumothorax) are easily lost after downsizing to 224 pixels.
 **Say:** First, our patient. The top two descriptions differ by four thousandths. That is a coin toss, even though the top one happens to be right. [click] Second, an X-ray whose report describes fluid around both lungs. The model's top choice is "normal": confidently wrong. [click] Third, the same image prepared two ways, a PNG for the slides and the DICOM in the notebook, gives two different scores. Preparation is part of the model.
 **Example:** Three questions to ask of any AI score: how big is the gap, what does the report say, and how was the image prepared?
 **Try / Notice:** None.
@@ -205,6 +216,7 @@ tag: actual
 tagText: 'TotalSegmentator labels for our patient’s CT'
 run: segmentation.json
 sources: [wasserthal2023totalseg, lidc2015data]
+links: [lidc, totalseg]
 ---
 
 ::title::
@@ -216,6 +228,7 @@ sources: [wasserthal2023totalseg, lidc2015data]
 <!--
 **Time:** ~2 min
 **Objective:** Run whole-CT segmentation and read its output.
+**Background:** ml = millilitre = 1 cm³; L = litre = 1,000 ml. Volume = voxel count × voxel volume, from PixelSpacing and the slice spacing in the DICOM tags. The lungs' volume depends on the breath held during the scan.
 **Say:** TotalSegmentator reads the DICOM folder directly and outlines 117 structures. On this GPU it takes about a minute. [click] The lungs: 3.7 litres. [click] The heart, aorta and airway. [click] The spine, ribs and the top of the liver. Each colour is a real outline from the run, and every volume on the right was measured from it.
 **Example:** Scroll through the slices: the outlines follow the anatomy up and down the chest.
 **Try / Notice:** Use the slice slider, switch structures on and off, and change the opacity.
@@ -236,6 +249,7 @@ tag: actual
 tagText: 'radiologists’ outlines, MedSAM and TotalSegmentator'
 run: segmentation.json
 sources: [fedorov2018lidcdicom, ma2024medsam, wasserthal2023totalseg]
+links: [lidc, medsam, totalseg]
 ---
 
 ::title::
@@ -247,6 +261,7 @@ sources: [fedorov2018lidcdicom, ma2024medsam, wasserthal2023totalseg]
 <!--
 **Time:** ~2.5 min
 **Objective:** Validate segmentation output against human references, and find where it fails.
+**Background:** Two kinds of Dice: on one slice (2D) and over the whole nodule (3D). The readers' agreement with each other (0.84–0.90 in 3D) is the ceiling; MedSAM's 0.75–0.77 is below it.
 **Say:** How good is good? First, the four radiologists against each other over the whole nodule: Dice between 0.84 and 0.90. That is our ceiling. [click] MedSAM, given a box, scores about 0.75 to 0.77 against each of them on the nodule slice, where the readers agree with each other at 0.91 or more. MedSAM drew the nodule too small. [click] And TotalSegmentator does not mark the nodule at all: 99.9% of it sits inside its "lung" label. Neither model is wrong for what it was built to do, but neither replaces the reader.
 **Example:** Always compare a model with the spread between experts, not with perfection.
 **Try / Notice:** Darker cells = more agreement.
@@ -267,17 +282,19 @@ tag: actual
 tagText: 'notebook cell D3, as run'
 run: notebook.json
 sources: [gatidis2022fdgpetct, dicomstandard]
+links: [lidc, upenn, cmmd, liverus, petct]
 ---
 
 ::title::
 # Demo D: real DICOM from six scanners
 
 ::default::
-<NotebookCell cell="D3" :lines="[3, 4, 5, 6, 7]" :steps="[[3, 4, 5], [6, 7]]" :out-lines="2" colab="dicom" />
+<NotebookCell cell="D3" :lines="[3, 4, 5, 6, 7]" :steps="[[3, 4, 5], [6, 7]]" :out-lines="2" colab="dicom" goal="turn PET radioactivity into SUV using the file's own tags" use="SUV is the number on PET reports, compared between scans" />
 
 <!--
 **Time:** ~1.5 min
 **Objective:** Read the sample pack in code, ending with the SUV calculation.
+**Background:** Each scanner type stores different essential tags: CT → Hounsfield conversion; PET → dose, times, weight for SUV; ultrasound → frames and FrameTime; mammogram → laterality and view; X-ray → often no pixel size (ImagerPixelSpacing at the detector instead).
 **Say:** Workflow D in the notebook opens every file in the sample pack and prints the tags that matter for each kind of scanner: units for CT and PET, frames for ultrasound, laterality for the mammogram. This cell is the PET one. [click] It reads the timing and dose from the file. [click] And turns becquerels into SUV. The output matches the slide we saw in Part 4, because it is the same file.
 **Example:** Four lines of arithmetic, but every input comes from the DICOM header.
 **Try / Notice:** None.
@@ -298,17 +315,19 @@ tag: actual
 tagText: 'notebook cells E1–E2, as run in Jupyter'
 run: notebook.json
 sources: [lidc2015data, fedorov2018lidcdicom, dicomstandard]
+links: [lidc]
 ---
 
 ::title::
 # Demo E1: Python on a CT, from pixels to insights
 
 ::default::
-<NotebookPair :cells="['E1', 'E2']" :script="['tissue', 'nodule']" />
+<NotebookPair :cells="['E1', 'E2']" :script="['tissue', 'nodule']" :goal="['count how much of the slice is air, lung, fat, soft tissue and bone', 'measure the nodule each of four radiologists outlined']" :use="['body-composition and quality checks on CT', 'tracking nodule growth between scans; checking how much experts agree']" />
 
 <!--
 **Time:** ~2 min
 **Objective:** Run real analysis code on real DICOM files and turn numbers into insights.
+**Background:** Area in cm² = pixel count × pixel area (PixelSpacing in mm, ÷ 100). Tissue classes come from HU thresholds (air, lung, fat, soft tissue, bone). The four readers' nodule volumes (cm³ = ml) differ by 28%: measurement variability that matters when doctors judge growth between scans.
 **Say:** Workflow E of the notebook: short Python analyses on the DICOM files, each ending in one insight. Here is cell E1, run in Jupyter; the same code runs from a terminal with the command at the top right. [click] What tissue is on this slice? Because CT values are Hounsfield units, simple ranges sort the pixels into lung, fat, soft tissue and bone, and the pixel size from the file turns counts into square centimetres. Lung is almost half of the tissue on this slice. [click] Cell E2: the nodule. The four radiologists' outlines are DICOM SEG files. [click] The code measures each one: volume, longest diameter, mean density. Same nodule, same images, and the volumes differ by about 28%. Reader 1's outline is wider and takes in more lung, so its mean density is much lower.
 **Example:** This is what "quantitative imaging" means: measurements that come straight from the stored units and geometry.
 **Try / Notice:** Switch between the two cells with the buttons; switch to Jupyter or a terminal to run them live.
@@ -329,17 +348,19 @@ tag: actual
 tagText: 'notebook cells E3–E4, as run in Jupyter'
 run: notebook.json
 sources: [gatidis2022fdgpetct, boellaard2015petguideline, dicomstandard]
+links: [lidc, upenn, cmmd, liverus, petct]
 ---
 
 ::title::
 # Demo E2: Python on PET, then an audit of every file
 
 ::default::
-<NotebookPair :cells="['E3', 'E4']" :script="['pet', 'audit']" />
+<NotebookPair :cells="['E3', 'E4']" :script="['pet', 'audit']" :goal="['measure how hot the tumour is, inside the expert outline', 'check every file for missing or suspicious tags']" :use="['judging response to treatment by comparing SUV before and after', 'cleaning data before training or testing a model']" />
 
 <!--
 **Time:** ~2 min
 **Objective:** Compute tumour statistics from PET DICOM, and audit metadata across modalities.
+**Background:** SUVmax = hottest voxel; SUVmean = average inside the outline; tumour-to-background ratio = tumour SUVmean ÷ normal tissue SUVmean. The audit checks that identifying tags are empty and that pixel size exists, because without pixel size nothing can be measured in mm.
 **Say:** Cell E3. [click] The PET file's own tags convert its pixels to SUV; the expert outline, a DICOM SEG, picks out the tumour. On this slice: SUV max 14, mean 3.4, an area of about 19 square centimetres, and a tumour-to-background ratio of about 4: the tumour takes up four times more sugar than the surrounding tissue. [click] Cell E4: an audit. [click] The code opens every file and checks what it says about identity and geometry. All seven were de-identified, with no private tags left. But two of them, the X-ray and the ultrasound, record no pixel size, so nothing in them can be measured in millimetres. You only find this by checking.
 **Example:** Before training a model on thousands of files, an audit like this catches missing or inconsistent tags.
 **Try / Notice:** Switch between the two cells; run them live in Jupyter or a terminal.
@@ -360,6 +381,7 @@ tag: actual
 tagText: 'values from the notebook run'
 run: notebook.json
 sources: [radford2021clip, zhang2025biomedclip]
+links: [biomedclip, clip]
 ---
 
 ::title::
@@ -371,6 +393,7 @@ sources: [radford2021clip, zhang2025biomedclip]
 <!--
 **Time:** ~2.5 min
 **Objective:** Separate scores, probabilities, findings and diagnoses.
+**Background:** A *diagnosis* combines evidence and is made by a clinician; a *calibrated* probability means that among cases scored 0.8, about 80% truly have the condition. Contrastive scores are neither.
 **Say:** Let's climb from what the model gave us to what a patient needs. The bottom rung: a similarity score, 0.405. It only ranks options for this one image. [click] Turn the scores into "probabilities" with softmax, as many tools do, and the top description gets 0.42, even though it beat the next one by four thousandths. It looks like confidence; it is not calibrated. [click] A finding needs a threshold tested on local data, with known sensitivity and specificity. [click] And a diagnosis needs a clinician, all the evidence, and often a biopsy. Our patient's nodule was rated highly suspicious by radiologists; no model output here changes that.
 **Example:** A weather app's "70% chance of rain" has been checked against years of real rain. These numbers have not.
 **Try / Notice:** None.
