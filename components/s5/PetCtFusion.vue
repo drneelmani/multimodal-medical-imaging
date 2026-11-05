@@ -11,7 +11,7 @@ import meta from '../../data/imaging/petct/meta.json'
 import ZoomPane from '../ui/ZoomPane.vue'
 
 // Artifact 26 — PET/CT: two kinds of image from one scanner session, one picture. CT shows anatomy,
-// PET shows sugar uptake (SUV, computed from the PET file's tags); fused, the hot spot gets an address.
+// PET shows sugar uptake (SUV, computed from the PET file's tags); fused, the uptake is placed on the anatomy.
 // Step 3 adds the expert lesion outline (DICOM SEG). Opacity and hover work freely. clicks: 3
 const { step } = useStep(3)
 const ct = useBinary(ctUrl)
@@ -53,7 +53,7 @@ const move = (e: PointerEvent) => { const r = (e.currentTarget as HTMLElement).g
 // Places on the whole-body image, marked by eye (fractions of width and height): FDG goes where cells
 // use a lot of sugar, so brain, heart, kidneys and bladder are dark normally; the tumour is abnormal.
 const MARKS = [{ t: 'tumour', x: 0.56, y: 0.245, bad: true }, { t: 'heart', x: 0.47, y: 0.38 }, { t: 'liver', x: 0.36, y: 0.5 }, { t: 'kidney', x: 0.58, y: 0.56 }, { t: 'bladder', x: 0.51, y: 0.84 }]
-const CAP = ['CT: anatomy, in Hounsfield units', 'PET: sugar uptake, in SUV', 'Fused: the hot spot gets an address', 'Expert outline of the tumour (DICOM SEG)']
+const CAP = ['CT: anatomy, in Hounsfield units', 'PET: sugar uptake, in SUV', 'Fused: the uptake is placed on the anatomy', 'Expert outline of the tumour (DICOM SEG)']
 </script>
 
 <template>
@@ -77,7 +77,7 @@ const CAP = ['CT: anatomy, in Hounsfield units', 'PET: sugar uptake, in SUV', 'F
           <span class="lvl" :style="{ top: `${meta.mip_slice_frac * 100}%` }" />
           <span v-for="m in MARKS" :key="m.t" class="mk" :class="{ bad: m.bad }" :style="{ left: `${m.x * 100}%`, top: `${m.y * 100}%` }">{{ m.t }}</span>
         </div>
-        <figcaption>Whole body, front view: all slices squeezed into one picture (a maximum-intensity projection), so it stays the same. <span class="yl">Yellow line</span>: the slice on the left. Labels added by us.</figcaption>
+        <figcaption>Whole body, front view: all slices combined into one picture (a maximum-intensity projection), so it stays the same. <span class="yl">Yellow line</span>: the slice on the left. Labels added by us.</figcaption>
       </figure>
       <div class="card rv" :class="{ on: step >= 3 }">
         <p>Tumour SUVmax <strong>{{ meta.lesion.suv_max }}</strong></p>

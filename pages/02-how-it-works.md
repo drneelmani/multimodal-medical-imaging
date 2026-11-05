@@ -5,12 +5,12 @@ section: 2
 
 # How does a computer read an X-ray and a report?
 
-<p>Everything becomes numbers. The trick is making the numbers for a picture and its description agree.</p>
+<p>Everything becomes numbers. The key is making the numbers for a picture and its description agree.</p>
 
 <!--
 **Time:** ~0.5 min
 **Objective:** Pose the question Part 2 answers.
-**Say:** Part two opens the box. A computer cannot look at a picture or read a sentence; it can only do arithmetic. So we will see how an image becomes numbers, how a sentence becomes numbers, and how a model learns to make the two sets of numbers agree when they describe the same thing.
+**Say:** Part two looks inside the models. A computer cannot look at a picture or read a sentence; it can only do arithmetic. So we will see how an image becomes numbers, how a sentence becomes numbers, and how a model learns to make the two sets of numbers agree when they describe the same thing.
 **Transition:** Start with what a neural network actually does.
 **Sources:** None — section opener.
 -->
@@ -130,7 +130,7 @@ links: [biomedclip]
 **Try / Notice:** Hover over any thumbnail to enlarge it.
 **Ask:** Why might CT and X-ray land near each other?
 **Caveat:** Squashing 512 numbers to two (PCA) keeps only about 37% of the variation here, so distances on this map are approximate.
-**Transition:** Text gets a fingerprint too. The trick is to make the two kinds agree.
+**Transition:** Text gets a fingerprint too. The key idea is to make the two kinds agree.
 **Sources:** zhang2025biomedclip — the model. Run: data/runs/biomedclip_embedding_map.json.
 -->
 
@@ -181,7 +181,7 @@ links: [iu, biomedclip, clip]
 **Time:** ~2 min
 **Objective:** Explain contrastive learning with a batch matrix, then confront it with a real result.
 **Background:** The sentences are from real radiology reports (IU X-ray collection). 'Impression' is the conclusion section of a report. The training objective is the symmetric InfoNCE contrastive loss over the batch.
-**Say:** Here are six chest X-rays and, on the left, a sentence from each one's report. During training, the model sees a batch like this and scores every picture against every sentence. [click] At the start, every picture looks equally like every sentence. [click] Training rewards a high score on the diagonal, the true pairs, and a low score everywhere else. Repeat this over millions of pairs: that is contrastive learning, the method behind CLIP. [click] Now the real thing. These are BiomedCLIP's actual scores for these six real X-rays. The correct sentence wins for only two of the six. Subtle findings such as a scoliosis or a small granuloma are hard to see at this resolution, and several sentences describe small details.
+**Say:** Here are six chest X-rays and, on the left, a sentence from each one's report. During training, the model sees a batch like this and scores every picture against every sentence. [click] At the start, every picture looks equally like every sentence. [click] Training rewards a high score on the diagonal, the true pairs, and a low score everywhere else. Repeat this over millions of pairs: that is contrastive learning, the method behind CLIP. [click] Now the real thing. These are BiomedCLIP's actual scores for these six real X-rays. The correct sentence ranks first for only two of the six. Subtle findings such as a scoliosis or a small granuloma are hard to see at this resolution, and several sentences describe small details.
 **Example:** Like a matching exercise in an exam: draw lines between six pictures and six captions.
 **Try / Notice:** Click any cell to see its image and sentence with the exact score.
 **Ask:** Why might "small calcified granulomata" be hard to match from a 224-pixel image?
@@ -238,7 +238,7 @@ sources: [vaswani2017attention, alayrac2022flamingo]
 **Time:** ~1.5 min
 **Objective:** Give an intuition for attention and cross-attention.
 **Background:** Radiological convention: images are viewed as if facing the patient (or from the feet for CT), so the patient's left is on the viewer's right. That is why 'left' attends to the right side of the screen.
-**Say:** Some multimodal models go further than comparing two fingerprints. With cross-attention, each word in the text can look at the image and decide which parts matter for it. [click] "Nodule" looks at the lump. [click] "Left" looks at the left lung, which is on the right of the screen, because CT is viewed as if facing the patient. [click] "Lower" looks at the lower lobe. [click] And "spiculated" looks at the spiky edge of the nodule. Small words like "the" spread their attention thinly.
+**Say:** Some multimodal models go further than comparing two fingerprints. With cross-attention, each word in the text can look at the image and decide which parts matter for it. [click] "Nodule" looks at the nodule itself. [click] "Left" looks at the left lung, which is on the right of the screen, because CT is viewed as if facing the patient. [click] "Lower" looks at the lower lobe. [click] And "spiculated" looks at the spiky edge of the nodule. Small words like "the" spread their attention thinly.
 **Example:** Like reading a report while pointing at the image with your finger as each word comes up.
 **Try / Notice:** Click any word to see where it would look.
 **Ask:** Predict, then reveal: where should the word "margin" look?

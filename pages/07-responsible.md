@@ -52,10 +52,11 @@ tag: actual
 tagText: 'BiomedCLIP on the same X-rays, changed in software'
 run: biomedclip_shift.json
 sources: [zech2018generalization, degrave2021shortcuts, geirhos2020shortcut]
+links: [iu, biomedclip]
 ---
 
 ::title::
-# A new scanner can quietly lower accuracy
+# A new scanner can lower accuracy without warning
 
 ::default::
 <ShiftIllustrator />
@@ -120,7 +121,7 @@ links: [lidc]
 **Try / Notice:** Click any sentence to see its evidence.
 **Ask:** Who signs this report, and how long would checking it take?
 **Caveat:** The report is written by us to illustrate; we did not run a report-generation model. The evidence shown is real.
-**Transition:** Let's pull it together.
+**Transition:** To finish, the main points.
 **Sources:** fedorov2018lidcdicom — the readers' measurements and ratings; tu2024medpalmm — report generation research.
 -->
 

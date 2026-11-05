@@ -9,7 +9,7 @@ const rows: [string, string][] = [
   ['Problem', 'Labelling X-rays by hand is slow and expensive'],
   ['Input → output', 'Chest X-ray + a pair of prompts (“pneumonia” / “no pneumonia”) → a score'],
   ['How', 'CLIP-style training on X-rays and the reports already written about them'],
-  ['Reported', 'Accuracy comparable to radiologists; beat a fully supervised model on 3 of 8 findings on external data'],
+  ['Reported', 'Accuracy comparable to radiologists; outperformed a fully supervised model on 3 of 8 findings on external data'],
   ['Limits', 'Chest X-ray only; accuracy varies by finding; research model'],
 ]
 </script>

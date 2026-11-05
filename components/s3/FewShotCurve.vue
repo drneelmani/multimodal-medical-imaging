@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { useStep } from '../../composables/useStep'
 import run from '../../data/runs/biomedclip_fewshot_crc.json'
 
-// Slide 21 — a few labelled examples go a long way. Real accuracy of a small classifier on frozen
+// Slide 21 — a few labelled examples raise accuracy sharply. Real accuracy of a small classifier on frozen
 // BiomedCLIP fingerprints, against the best zero-shot wording. Hover a point for the range. clicks: 2
 const { step } = useStep(2)
 const W = 560, H = 320, L = 54, B = 56
@@ -37,7 +37,7 @@ const pct = (v: number) => `${Math.round(v * 100)}%`
       </g>
     </svg>
     <div class="side">
-      <p class="rv" :class="{ on: step >= 2 }"><strong>{{ run.curve[0].total_labelled }} labelled images</strong> (one per class) beat the best prompt.</p>
+      <p class="rv" :class="{ on: step >= 2 }"><strong>{{ run.curve[0].total_labelled }} labelled images</strong> (one per class) outperform the best prompt.</p>
       <p class="rv" :class="{ on: step >= 2 }"><strong>{{ run.curve[3].total_labelled }}</strong> reach {{ pct(run.curve[3].accuracy_mean) }}.</p>
       <p class="muted small rv" :class="{ on: step >= 2 }">The model itself is unchanged; only a small layer on top learns.</p>
     </div>

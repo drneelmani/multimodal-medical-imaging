@@ -99,7 +99,7 @@ links: [lidc]
 **Try / Notice:** Click the group buttons to move between them.
 **Ask:** Which of these would you remove before sharing data?
 **Caveat:** De-identification is more than blanking tags: identities can also hide in burned-in text, in private tags, or in a face reconstructed from a head CT.
-**Transition:** Let's open real DICOM files and read their tags live.
+**Transition:** Next, we open real DICOM files and read their tags live.
 **Sources:** dicomstandard; lidc2015data.
 -->
 
@@ -325,7 +325,7 @@ links: [petct]
 <!--
 **Time:** ~2 min
 **Objective:** Show a calculation that is impossible without DICOM metadata.
-**Background:** *FDG* = glucose with a radioactive fluorine-18 atom; cancer cells use a lot of glucose, so FDG collects there. *Becquerel (Bq)* = one radioactive decay per second; MBq = one million. Pixels are activity concentration in Bq per ml. *Decay*: fluorine-18 halves every 109.8 minutes (its half-life, read from the file), so activity at scan = injected × 2^(−minutes / 109.8). *SUV* (standardised uptake value) = concentration ÷ (dose ÷ body weight), unitless, taking 1 g of tissue as 1 ml. SUV 1 = the body average; tumours are well above it. SUVmax = the hottest voxel.
+**Background:** *FDG* = glucose with a radioactive fluorine-18 atom; cancer cells use much more glucose than most tissue, so FDG collects there. *Becquerel (Bq)* = one radioactive decay per second; MBq = one million. Pixels are activity concentration in Bq per ml. *Decay*: fluorine-18 halves every 109.8 minutes (its half-life, read from the file), so activity at scan = injected × 2^(−minutes / 109.8). *SUV* (standardised uptake value) = concentration ÷ (dose ÷ body weight), unitless, taking 1 g of tissue as 1 ml. SUV 1 = the body average; tumours are well above it. SUVmax = the hottest voxel.
 **Say:** This is a real PET slice through a lung cancer. The pixels are radioactivity: becquerels per millilitre. Point at the tumour and you get tens of thousands. That number depends on how much tracer was given and when, so it cannot be compared between patients. [click] The file tells us what we need: the tracer, FDG, 300 megabecquerels injected at 9:10; the scan started an hour later; the patient weighed 61 kilograms. [click] FDG decays with a half-life of 110 minutes, so about 205 megabecquerels were left at the scan. [click] Divide by that dose per gram of body weight and we get the standardised uptake value, SUV. On this slice the hottest point is about 14; across the whole tumour in 3D, 18.
 **Example:** Like converting a raw count to a per-capita rate before comparing two cities.
 **Try / Notice:** Point at the tumour, then at normal tissue; after the last click the readout shows SUV.

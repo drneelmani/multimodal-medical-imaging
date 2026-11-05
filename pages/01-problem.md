@@ -91,8 +91,8 @@ links: [lidc]
 <!--
 **Time:** ~1.5 min
 **Objective:** Show that even one patient arrives as several kinds of evidence, each answering different questions.
-**Background:** LIDC-IDRI is a public lung-cancer research collection: CT scans plus outlines and ratings by four radiologists (doctors who read scans). A *nodule* is a small round lump in the lung, up to 3 cm across (larger = *mass*); it may be cancer or harmless scar. *Left lower lobe*: the right lung has three lobes (upper, middle, lower), the left has two (upper, lower). *Spiculated* = spiky edge, a warning sign for cancer. Ratings are 1–5 forms the readers filled in (DICOM SR).
-**Say:** This is a real, anonymised patient from a public archive. First, a chest X-ray. [click] Then a CT scan: 133 thin slices; this is the one through the widest part of a lump in the left lung, circled. [click] Four radiologists independently outlined the lump and filled in a structured form. This one wrote: solid nodule, about 32 millimetres, spiky edge, and rated it 5 out of 5 for suspicion of cancer. [click] And what is missing: the history. Symptoms, smoking, earlier scans, blood tests. A clinician would never decide without them, and the public data does not include them.
+**Background:** LIDC-IDRI is a public lung-cancer research collection: CT scans plus outlines and ratings by four radiologists (doctors who read scans). A *nodule* is a small, rounded spot in the lung, up to 3 cm across (larger = *mass*); it may be cancer or harmless scar. *Left lower lobe*: the right lung has three lobes (upper, middle, lower), the left has two (upper, lower). *Spiculated* = spiky edge, a warning sign for cancer. Ratings are 1–5 forms the readers filled in (DICOM SR).
+**Say:** This is a real, anonymised patient from a public archive. First, a chest X-ray. [click] Then a CT scan: 133 thin slices; this is the one through the widest part of a nodule in the left lung, circled. [click] Four radiologists independently outlined the nodule and filled in a structured form. This one wrote: solid nodule, about 32 millimetres, spiky edge, and rated it 5 out of 5 for suspicion of cancer. [click] And what is missing: the history. Symptoms, smoking, earlier scans, blood tests. A clinician would never decide without them, and the public data does not include them.
 **Example:** Think of a detective with a photograph, a witness statement and a background file. Each one answers different questions.
 **Try / Notice:** The yellow circle on the CT slice; the dashed card on the right is deliberately empty.
 **Ask:** Before I reveal the rest: what would you want to see first: the image, the report, or the history?
@@ -112,7 +112,7 @@ links: [lidc, upenn, crc, hc18, fives]
 ---
 
 ::title::
-# Medicine makes many kinds of images
+# Many kinds of medical images
 
 ::default::
 <ModalityGallery />
@@ -121,7 +121,7 @@ links: [lidc, upenn, crc, hc18, fives]
 **Time:** ~1.5 min
 **Objective:** Recognise the main imaging modalities and that they are stored differently.
 **Background:** X-ray: one shadow picture; bone stops X-rays (white), air lets them through (black). CT (computed tomography): X-rays from all round the body, computed into thin slices, values in Hounsfield units. MRI: strong magnet and radio waves, no radiation; contrast depends on the 'sequence'. Ultrasound: high-frequency sound echoes, live, no radiation. Pathology: microscope photos of tissue stained pink and purple (H&E). Fundus photo: a camera picture of the back of the eye (retina). PET (later): shows where a radioactive sugar collects.
-**Say:** X-ray: a shadow picture, cheap and fast. [click] CT: many X-ray slices stacked into a 3D volume, which is our patient. [click] MRI uses magnetism instead of radiation and can show the same tissue with different contrasts. [click] Ultrasound uses sound echoes and is live; this one is a baby's head. [click] Pathology: thin slices of tissue, stained and photographed under a microscope. [click] And the retina, photographed through the pupil. [click] Notice the stamps: radiology images are usually stored as DICOM, the hospital standard we will open up in Part 4. Microscope slides and eye photos often are not.
+**Say:** X-ray: a shadow picture, low-cost and fast. [click] CT: many X-ray slices stacked into a 3D volume, which is our patient. [click] MRI uses magnetism instead of radiation and can show the same tissue with different contrasts. [click] Ultrasound uses sound echoes and is live; this one is a baby's head. [click] Pathology: thin slices of tissue, stained and photographed under a microscope. [click] And the retina, photographed through the pupil. [click] Notice the stamps: radiology images are usually stored as DICOM, the hospital standard we will open up in Part 4. Microscope slides and eye photos often are not.
 **Example:** All six images in this gallery come from public, openly licensed research datasets, and you will see several of them again later.
 **Try / Notice:** Click any tile to enlarge it and see its source and licence.
 **Ask:** Which of these do you work with?
@@ -176,7 +176,7 @@ links: [lidc]
 **Time:** ~1.5 min
 **Objective:** Show concretely what image-only AI can and cannot know.
 **Background:** Doctors judge a lung nodule by size and shape, but also by growth over time (needs an earlier scan), smoking history and age; cancer is only confirmed by a biopsy (a tissue sample read under a microscope). These are not in the pixels, which is the case for multimodal AI.
-**Say:** An image-only system can be very good at the first kind of question: where is the abnormality and how big is it. Here, a lump about three centimetres across. But look at what the pixels cannot tell us. [click] Is it new, or has it been there unchanged for years? [click] Does the patient have symptoms? [click] Smoking or other risks? [click] And why was the scan done in the first place? Each of these changes what the finding means.
+**Say:** An image-only system can be very good at the first kind of question: where is the abnormality and how big is it. Here, a nodule about three centimetres across. But look at what the pixels cannot tell us. [click] Is it new, or has it been there unchanged for years? [click] Does the patient have symptoms? [click] Smoking or other risks? [click] And why was the scan done in the first place? Each of these changes what the finding means.
 **Example:** A 3 cm nodule unchanged for five years and a 3 cm nodule that was not there last year are very different stories, yet the single image looks the same.
 **Try / Notice:** The box marks the nodule; the list grows with each click.
 **Ask:** Which of these questions matters most in your speciality?
@@ -208,7 +208,7 @@ sub: 'AI that learns from more than one kind of data at once'
 **Try / Notice:** The three inputs join into one model.
 **Ask:** None.
 **Caveat:** The values on the "numbers" chip are examples of the kind of data, not this patient's.
-**Transition:** Let's compare the two approaches on our patient.
+**Transition:** Next, we compare the two approaches on our patient.
 **Sources:** None — conceptual.
 -->
 
@@ -232,7 +232,7 @@ links: [lidc]
 **Time:** ~1.5 min
 **Objective:** Feel the difference between image-only and image-plus-context reasoning on a real case.
 **Background:** Radiologists' malignancy rating in LIDC is 1 (highly unlikely cancer) to 5 (highly suspicious). It is an opinion from the images, not a proven diagnosis; LIDC does not include biopsy results for this patient.
-**Say:** On the left, only the image. What can we say? A round lump, three centimetres, spiky edge. [click] Add the report text: three of the four radiologists rated it highly suspicious for cancer. That is information a model can learn to connect with how the image looks. [click] Add the history, and a new kind of question becomes answerable: has it grown? That needs an earlier scan, which is exactly the kind of data multimodal systems try to bring in.
+**Say:** On the left, only the image. What can we say? A round nodule, three centimetres, spiky edge. [click] Add the report text: three of the four radiologists rated it highly suspicious for cancer. That is information a model can learn to connect with how the image looks. [click] Add the history, and a new kind of question becomes answerable: has it grown? That needs an earlier scan, which is exactly the kind of data multimodal systems try to bring in.
 **Example:** This is what the rest of the session is about: how a model can connect the left side with the right side.
 **Try / Notice:** Toggle the evidence on and off with the buttons to show what each piece contributes.
 **Ask:** Predict, then reveal: which answer would you trust more, image only or image plus report? Why?

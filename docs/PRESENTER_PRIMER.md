@@ -22,7 +22,7 @@ For a presenter from computer science. Each slide's speaker notes have a **Backg
 ## Words you will meet
 
 **Anatomy and findings**
-- **Nodule**: a small round lump in the lung, up to 3 cm across; above 3 cm it is a **mass** (Fleischner glossary). It may be cancer or harmless scar. Our patient's is about 3 cm in the **left lower lobe** (right lung: three lobes; left lung: two).
+- **Nodule**: a small, rounded spot in the lung, up to 3 cm across; above 3 cm it is a **mass** (Fleischner glossary). It may be cancer or harmless scar. Our patient's is about 3 cm in the **left lower lobe** (right lung: three lobes; left lung: two).
 - **Spiculated**: spiky edge, a warning sign for cancer.
 - **Cardiomegaly**: enlarged heart. **Pleural effusion**: fluid between the lung and the chest wall. **Pneumothorax**: air outside the lung, which collapses it. **Pneumonia/consolidation**: infection, seen as white patches.
 - **Glioblastoma**: the commonest aggressive brain cancer in adults, with an **enhancing rim** (active edge), a **necrotic core** (dead tissue) and **oedema** (swelling) around it. Ours is in the right temporal lobe.

@@ -10,7 +10,7 @@ section: 3
 <!--
 **Time:** ~0.5 min
 **Objective:** Pose the question Part 3 answers.
-**Say:** We know the building blocks. Now: how is a model trained, how do we test it without fooling ourselves, and which of today's medical models does what?
+**Say:** We know the building blocks. Now: how is a model trained, how do we test it without misleading ourselves, and which of today's medical models does what?
 **Transition:** First, the difference between training and using a model.
 **Sources:** None — section opener.
 -->
@@ -34,7 +34,7 @@ links: [biomedclip]
 **Time:** ~1 min
 **Objective:** Separate training from inference.
 **Background:** Inference speed matters clinically: a model that takes seconds per image can run as scans arrive; one that takes minutes needs a queue. Our measured BiomedCLIP time is on the Demo slides.
-**Say:** Training is when the model learns: it sees millions of examples and its internal numbers are adjusted again and again. BiomedCLIP saw 15 million figure–caption pairs. That is done once, by the developer, with a lot of computing power. [click] Inference is what happens when you use it: one new image goes in, the numbers are frozen, an answer comes out in seconds. Everything a model can do at inference time, it learned during training.
+**Say:** Training is when the model learns: it sees millions of examples and its internal numbers are adjusted again and again. BiomedCLIP saw 15 million figure–caption pairs. That is done once, by the developer, with large computing resources. [click] Inference is what happens when you use it: one new image goes in, the numbers are frozen, an answer comes out in seconds. Everything a model can do at inference time, it learned during training.
 **Example:** Medical school versus a single consultation.
 **Try / Notice:** None.
 **Ask:** If a hospital's scanners change, does the model notice? (No: its numbers are fixed.)
@@ -85,7 +85,7 @@ links: [crc, biomedclip]
 ---
 
 ::title::
-# A few labelled examples go a long way
+# A few labelled examples raise accuracy sharply
 
 ::default::
 <FewShotCurve />
@@ -175,7 +175,7 @@ links: [biomedclip, clip]
 ---
 
 ::title::
-# Same recipe, different data: CLIP and BiomedCLIP
+# Same method, different data: CLIP and BiomedCLIP
 
 ::default::
 <ClipVsBiomed />
@@ -184,7 +184,7 @@ links: [biomedclip, clip]
 **Time:** ~1.5 min
 **Objective:** Introduce CLIP and BiomedCLIP, and test the claim that domain data helps.
 **Background:** PMC = PubMed Central, the free archive of biomedical papers; BiomedCLIP learned from 15 million figures and captions there. Journal figures are cropped and labelled, unlike raw hospital scans, which is one reason performance on clinical images is lower.
-**Say:** CLIP, from 2021, learned from 400 million image–caption pairs from the internet: photos of dogs, cars, food. [click] BiomedCLIP used the same recipe but with 15 million figures and captions from biomedical papers. [click] Does that matter? We ran both on the same 900 pathology tiles. BiomedCLIP wins with the best wording, 52% against 48%, but general CLIP is closer than you might expect, and wins on one wording. Domain data helps, but it is not magic.
+**Say:** CLIP, from 2021, learned from 400 million image–caption pairs from the internet: photos of dogs, cars, food. [click] BiomedCLIP used the same recipe but with 15 million figures and captions from biomedical papers. [click] Does that matter? We ran both on the same 900 pathology tiles. BiomedCLIP does better with the best wording, 52% against 48%, but general CLIP is closer than you might expect, and comes first on one wording. Domain data helps, but it does not solve everything.
 **Example:** A brilliant generalist versus a specialist with a narrower education.
 **Try / Notice:** Compare the grey and blue bar in each pair.
 **Ask:** None.
@@ -213,7 +213,7 @@ links: [chexzero, medclip]
 **Time:** ~1 min
 **Objective:** Show a medical CLIP-style model and what its authors report.
 **Background:** Trained on MIMIC-CXR (chest X-rays with free-text reports from one US hospital; access requires a data-use agreement). 'Pneumonia' = lung infection, seen as white patches. Learning from reports avoids hand labelling.
-**Say:** CheXzero tackles the labelling bottleneck. Instead of paying experts to label every X-ray, it learns from the reports radiologists have already written. [click] At use, you give it an X-ray and two prompts, such as "pneumonia" and "no pneumonia", and it scores which fits better. [click] It is trained like CLIP, on pairs of X-rays and reports. [click] The authors report accuracy comparable to radiologists on several findings, and on an external dataset it beat a fully supervised model on three of eight. [click] But it only knows chest X-rays, and performance varies a lot by finding.
+**Say:** CheXzero addresses the cost of labelling. Instead of paying experts to label every X-ray, it learns from the reports radiologists have already written. [click] At use, you give it an X-ray and two prompts, such as "pneumonia" and "no pneumonia", and it scores which fits better. [click] It is trained like CLIP, on pairs of X-rays and reports. [click] The authors report accuracy comparable to radiologists on several findings, and on an external dataset it outperformed a fully supervised model on three of eight. [click] But it only knows chest X-rays, and performance varies a lot by finding.
 **Example:** It is the same zero-shot idea as slide 20, specialised for chest X-rays.
 **Try / Notice:** None.
 **Ask:** None.
@@ -243,8 +243,8 @@ links: [medsam]
 **Time:** ~1.5 min
 **Objective:** Explain promptable segmentation with a real run.
 **Background:** *Segmentation* = labelling every pixel as inside or outside a structure (an outline). Clinically used to measure size and volume or to plan radiotherapy. MedSAM is SAM (Segment Anything) fine-tuned on medical images; the box is the 'prompt'.
-**Say:** MedSAM is a segmentation model: it draws outlines. Its trick is that you tell it where to look. [click] A person draws a rough box around the target. [click] MedSAM outlines what is inside. This is a real run on our patient, which took about two seconds on our GPU. It was trained on 1.57 million images with outlines from ten kinds of scan, which is why one model can work on CT, MRI, ultrasound and more.
-**Example:** Like asking a colleague "can you trace that lump for me?" while pointing at it.
+**Say:** MedSAM is a segmentation model: it draws outlines. Its key feature is that you tell it where to look. [click] A person draws a rough box around the target. [click] MedSAM outlines what is inside. This is a real run on our patient, which took about two seconds on our GPU. It was trained on 1.57 million images with outlines from ten kinds of scan, which is why one model can work on CT, MRI, ultrasound and more.
+**Example:** Like asking a colleague "can you trace that nodule for me?" while pointing at it.
 **Try / Notice:** The green outline is smaller than the nodule's spiky edges, as we measured on the Dice slide.
 **Ask:** What are the pros and cons of needing a human to draw the box?
 **Caveat:** We fed MedSAM one 2D slice with a soft-tissue window; results depend on the box and the window chosen.
@@ -262,7 +262,7 @@ links: [llavamed, medgemma]
 ---
 
 ::title::
-# Assistants write text, and can write it wrongly
+# Assistants write text, and the text can be wrong
 
 ::default::
 <AssistantFlow />

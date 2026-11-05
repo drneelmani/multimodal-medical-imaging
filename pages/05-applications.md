@@ -111,7 +111,7 @@ links: [petct]
 **Time:** ~2 min
 **Objective:** Show PET/CT as multimodal imaging: anatomy and function combined.
 **Background:** The scanner takes a CT (anatomy) and a PET (metabolism) in one session, so they line up. The small whole-body picture is a *maximum-intensity projection* (MIP): for every line of sight from the front, the brightest PET value is kept, so it summarises all slices and does not change with the slider; the yellow line marks the slice on the left. Dark = high uptake. Normally high: brain, heart (uses glucose), kidneys and bladder (FDG leaves in the urine). The tumour cluster in the chest is abnormal. *Metabolic tumour volume* = volume of the outlined tumour in ml.
-**Say:** A PET/CT scanner takes two images in one session. CT shows anatomy, in Hounsfield units. [click] PET shows where sugar is being used, in SUV: tumours are greedy. On its own, PET shows a hot spot but not exactly where it is. [click] Fused, the hot spot gets an address: next to the airways in the chest. Because both files share a frame of reference, they line up without any registration. [click] The cyan line is an expert's outline of the tumour, stored as a DICOM SEG: SUVmax 18, about 134 millilitres. On the right, the whole-body view: darker means more uptake; the brain, heart and bladder are normal, the chest is not.
+**Say:** A PET/CT scanner takes two images in one session. CT shows anatomy, in Hounsfield units. [click] PET shows where sugar is being used, in SUV: tumours use much more of it than normal tissue. On its own, PET shows an area of high uptake but not exactly where it is. [click] Fused, that uptake is placed on the anatomy: next to the airways in the chest. Because both files share a frame of reference, they line up without any registration. [click] The cyan line is an expert's outline of the tumour, stored as a DICOM SEG: SUVmax 18, about 134 millilitres. On the right, the whole-body view: darker means more uptake; the heart, kidneys and bladder are normal, the cluster in the chest is not. The head is outside this scan.
 **Example:** The PET says "something is burning", the CT says "on the third floor, room 12".
 **Try / Notice:** Move the PET opacity slider; point at the image to read HU and SUV together.
 **Ask:** Which multimodal model from Part 3 could use both images at once?
@@ -158,7 +158,7 @@ links: [upenn]
 **Time:** ~1.5 min
 **Objective:** Connect multi-sequence MRI to multimodal fusion.
 **Background:** Tumour models (e.g. those from the BraTS challenges) take T1, T1+contrast, T2 and FLAIR together and output three regions: enhancing tumour, necrotic core and oedema. Measurements are repeated over months to judge response to treatment.
-**Say:** A brain tumour is followed over months, so measurements must be consistent. [click] Tumour models read all four sequences at once. Each sequence is, in effect, a different modality. [click] Out come outlines of the active tumour, dead tissue and swelling. [click] The benefit is a consistent measurement at every visit. [click] The limit is the fusion problem from Part 2: if one sequence is missing, or the hospital names it differently, the model may fail or quietly produce nonsense.
+**Say:** A brain tumour is followed over months, so measurements must be consistent. [click] Tumour models read all four sequences at once. Each sequence is, in effect, a different modality. [click] Out come outlines of the active tumour, dead tissue and swelling. [click] The benefit is a consistent measurement at every visit. [click] The limit is the fusion problem from Part 2: if one sequence is missing, or the hospital names it differently, the model may fail or give wrong results without any warning.
 **Example:** The four images here are one real patient, aligned in our notebook.
 **Try / Notice:** The swelling is bright on T2 and FLAIR, but not on T1.
 **Ask:** How consistent are series names on your scanners?
@@ -280,7 +280,7 @@ links: [hc18]
 **Time:** ~1 min
 **Objective:** Apply measurement AI to ultrasound.
 **Background:** *Head circumference (HC)*, measured on a standard ultrasound plane, is used to estimate gestational age and check growth. The dataset gives each image's pixel size in mm, so the fitted ellipse's perimeter becomes millimetres.
-**Say:** Ultrasound is live, cheap and everywhere, but it depends on the person holding the probe. [click] In this public challenge dataset, the task is to outline the baby's head and fit an ellipse. [click] The output is the head circumference in millimetres: 71.9 for this image, from the expert's outline. [click] Automating it makes measurements faster and more consistent. [click] But if the operator captures a poor view, no model can rescue the measurement.
+**Say:** Ultrasound is real-time, low-cost and widely available, but it depends on the person holding the probe. [click] In this public challenge dataset, the task is to outline the baby's head and fit an ellipse. [click] The output is the head circumference in millimetres: 71.9 for this image, from the expert's outline. [click] Automating it makes measurements faster and more consistent. [click] But if the operator captures a poor view, no model can rescue the measurement.
 **Example:** The yellow ellipse is the expert's outline from the dataset.
 **Try / Notice:** None.
 **Ask:** Where in your practice does the operator matter more than the software?
@@ -352,6 +352,6 @@ sources: [huang2020fusion]
 **Try / Notice:** None.
 **Ask:** In your field, which part of the record would most help, and which is most likely to leak the answer?
 **Caveat:** Reviews of image and health-record fusion report gains in many studies, but study designs vary widely.
-**Transition:** Enough description. Let's run the models.
+**Transition:** Next, we run the models ourselves.
 **Sources:** huang2020fusion — review of imaging and EHR fusion.
 -->

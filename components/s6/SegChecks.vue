@@ -3,7 +3,7 @@ import { useStep } from '../../composables/useStep'
 import meta from '../../data/imaging/ct/meta.json'
 import seg from '../../data/runs/segmentation.json'
 
-// Slide 52 — checking segmentations against people: radiologists against each other (3D Dice),
+// Slide 52 — checking segmentations against radiologists: radiologists against each other (3D Dice),
 // MedSAM against each radiologist, and whether TotalSegmentator marks the nodule at all. clicks: 2
 const { step } = useStep(2)
 const D = meta.readers.dice_3d

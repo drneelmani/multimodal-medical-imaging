@@ -39,7 +39,7 @@ const short = (s: string) => s.replace('a chest X-ray showing ', '…').replace(
         <button v-for="(im, i) in run.images" :key="im.id" class="chip" :aria-pressed="which === i" @click="which = i">{{ name(im) }}</button>
       </div>
       <p class="truth">{{ run.images[which].truth }}</p>
-      <p v-if="which === 0" class="gloss"><strong>Nodule:</strong> a small round lump in the lung (up to 3 cm); it may be cancer or harmless.</p>
+      <p v-if="which === 0" class="gloss"><strong>Nodule:</strong> a small, rounded spot in the lung (up to 3 cm); it may be cancer or harmless.</p>
     </div>
     <div class="right">
       <div v-if="step >= 1" class="mode">

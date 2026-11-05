@@ -162,10 +162,10 @@ links: [lidc, iu, biomedclip]
 <!--
 **Time:** ~3 min
 **Objective:** Run image–text matching on real X-rays and read the ranking.
-**Background:** *Nodule* (our patient): a small round lump in the lung up to 3 cm; above 3 cm it is called a *mass*. The IU labels: normal, cardiomegaly (enlarged heart), pleural effusion (fluid around the lung), pneumothorax (collapsed lung). The bars are cosine scores, not probabilities. The 'As percentages (softmax)' button applies softmax with BiomedCLIP's own scale (×85): percentages add to 100% over the descriptions offered, so removing an option changes them. They are not the chance of disease.
+**Background:** *Nodule* (our patient): a small, rounded spot in the lung up to 3 cm; above 3 cm it is called a *mass*. The IU labels: normal, cardiomegaly (enlarged heart), pleural effusion (fluid around the lung), pneumothorax (collapsed lung). The bars are cosine scores, not probabilities. The 'As percentages (softmax)' button applies softmax with BiomedCLIP's own scale (×85): percentages add to 100% over the descriptions offered, so removing an option changes them. They are not the chance of disease.
 **Say:** For each X-ray, the model scores every description by cosine similarity. [click] The bars are real scores, recomputed in this page from the saved fingerprints. [click] Sorted, they become a ranking. For our patient, "a mass in the lung" comes first, but only just ahead of "normal". Switch to the IU X-rays: the normal one ranks "normal" first and the enlarged heart ranks "enlarged heart" first, but the effusions and the small pneumothorax are both called "normal".
 **Example:** Remove a description with the × and watch the ranking re-sort: the model can only choose among the options we give it.
-**Try / Notice:** Click the image buttons to switch X-rays; remove "a mass in the lung" for our patient and see what wins.
+**Try / Notice:** Click the image buttons to switch X-rays; remove "a mass in the lung" for our patient and see which description ranks first.
 **Ask:** Predict, then reveal: which description will rank first for our patient?
 **Caveat:** These scores come from the slides' preparation of the X-ray (a masked PNG); the notebook's DICOM path gives slightly different numbers, as the next slide shows. IU images are shown unmodified.
 **Steps:** Run B2 in the notebook; compare with the bars here.
@@ -196,7 +196,7 @@ links: [iu, biomedclip]
 **Time:** ~2.5 min
 **Objective:** Show failure and ambiguity in real outputs.
 **Background:** A tiny cosine gap (0.004) becomes a large softmax gap because of the ×85 scale; that is 'overconfidence', not certainty. Small findings (a 3 mm pneumothorax) are easily lost after downsizing to 224 pixels.
-**Say:** First, our patient. The top two descriptions differ by four thousandths. That is a coin toss, even though the top one happens to be right. [click] Second, an X-ray whose report describes fluid around both lungs. The model's top choice is "normal": confidently wrong. [click] Third, the same image prepared two ways, a PNG for the slides and the DICOM in the notebook, gives two different scores. Preparation is part of the model.
+**Say:** First, our patient. The top two descriptions differ by four thousandths. That difference is too small to mean anything, even though the top one happens to be right. [click] Second, an X-ray whose report describes fluid around both lungs. The model's top choice is "normal": confidently wrong. [click] Third, the same image prepared two ways, a PNG for the slides and the DICOM in the notebook, gives two different scores. Preparation is part of the model.
 **Example:** Three questions to ask of any AI score: how big is the gap, what does the report say, and how was the image prepared?
 **Try / Notice:** None.
 **Ask:** Why did the model miss the effusions?
@@ -253,7 +253,7 @@ links: [lidc, medsam, totalseg]
 ---
 
 ::title::
-# Demo C2: check the outlines against people
+# Demo C2: check the outlines against radiologists
 
 ::default::
 <SegChecks />
@@ -394,7 +394,7 @@ links: [biomedclip, clip]
 **Time:** ~2.5 min
 **Objective:** Separate scores, probabilities, findings and diagnoses.
 **Background:** A *diagnosis* combines evidence and is made by a clinician; a *calibrated* probability means that among cases scored 0.8, about 80% truly have the condition. Contrastive scores are neither.
-**Say:** Let's climb from what the model gave us to what a patient needs. The bottom rung: a similarity score, 0.405. It only ranks options for this one image. [click] Turn the scores into "probabilities" with softmax, as many tools do, and the top description gets 0.42, even though it beat the next one by four thousandths. It looks like confidence; it is not calibrated. [click] A finding needs a threshold tested on local data, with known sensitivity and specificity. [click] And a diagnosis needs a clinician, all the evidence, and often a biopsy. Our patient's nodule was rated highly suspicious by radiologists; no model output here changes that.
+**Say:** We now climb from what the model gave us to what a patient needs. The bottom rung: a similarity score, 0.405. It only ranks options for this one image. [click] Turn the scores into "probabilities" with softmax, as many tools do, and the top description gets 0.42, even though it was ahead of the next one by only four thousandths. It looks like confidence; it is not calibrated. [click] A finding needs a threshold tested on local data, with known sensitivity and specificity. [click] And a diagnosis needs a clinician, all the evidence, and often a biopsy. Our patient's nodule was rated highly suspicious by radiologists; no model output here changes that.
 **Example:** A weather app's "70% chance of rain" has been checked against years of real rain. These numbers have not.
 **Try / Notice:** None.
 **Ask:** Which rung do vendors' marketing materials usually show?

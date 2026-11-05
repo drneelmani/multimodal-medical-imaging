@@ -19,7 +19,7 @@ const short = (s: string) => s.replace('a chest X-ray showing ', '').replace(/ \
       <h3>Too close to call</h3>
       <p>Our patient, top two:</p>
       <p v-for="[c, s] in top" :key="c" class="mono">{{ s.toFixed(3) }} · {{ short(c) }}</p>
-      <p class="why">A gap of {{ (top[0][1] - top[1][1]).toFixed(3) }}: a coin toss, not a finding</p>
+      <p class="why">A gap of {{ (top[0][1] - top[1][1]).toFixed(3) }}: too small to mean anything</p>
     </div>
     <div class="card rv" :class="{ on: step >= 1 }">
       <h3>Confidently wrong</h3>

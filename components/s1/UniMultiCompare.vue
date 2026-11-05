@@ -14,7 +14,7 @@ watch(step, (s) => { useReport.value = s >= 1; useHistory.value = s >= 2 }, { im
 const r = reports.readers
 const malignant = r.filter(x => x.items.Malignancy.startsWith('5')).length
 const lines = computed(() => [
-  { on: true, from: 'Image', text: 'A round 3 cm lump in the left lung, with a spiky edge.' },
+  { on: true, from: 'Image', text: 'A round 3 cm nodule in the left lung, with a spiky edge.' },
   { on: useReport.value, from: 'Report', text: `${malignant} of ${r.length} radiologists rated it highly suspicious for cancer.` },
   { on: useHistory.value, from: 'History', text: 'Was it there two years ago? Has it grown? Only an earlier scan can say.' },
 ])
