@@ -10,8 +10,8 @@ import ZoomPane from '../ui/ZoomPane.vue'
 
 // Artifact 25 — a real DICOM viewer in the slide. Each click opens the next real file (teaching copies
 // of public TCIA data); tags are read from the file itself, not from a table. Participants can also open
-// their own .dcm file: it is read in the browser and never uploaded. Four more real files (not shown
-// here) can be downloaded as a zip to try that, each with its TCIA source. clicks: 5
+// their own .dcm file: it is read in the browser and never uploaded (sample files to try it with are in
+// public/dicom/samples/, named in the speaker notes; their credit shows when opened). clicks: 5
 const FILES = ['ct-lidc-0001.dcm', 'xray-lidc-0001.dcm', 'mri-flair-upenn-00001.dcm', 'mammo-cmmd-d2-0333.dcm', 'pet-fdg-lung.dcm', 'us-liver-ceus.dcm']
 const LABEL: Record<string, string> = { 'ct-lidc-0001.dcm': 'CT', 'xray-lidc-0001.dcm': 'X-ray', 'mri-flair-upenn-00001.dcm': 'MRI', 'mammo-cmmd-d2-0333.dcm': 'Mammogram', 'pet-fdg-lung.dcm': 'PET', 'us-liver-ceus.dcm': 'Ultrasound' }
 const { step } = useStep(FILES.length - 1)
@@ -96,10 +96,6 @@ const pick = (e: Event) => { const f = (e.target as HTMLInputElement).files?.[0]
         <a v-if="FILES.includes(name)" :href="pub(`dicom/${name}`)" :download="name">Download this .dcm</a>
         <label class="own">Open your own .dcm <input type="file" accept=".dcm,application/dicom" @change="pick"></label>
       </div>
-      <p class="try">
-        No file to hand? <a :href="pub('dicom/samples/dicom-samples.zip')" download>4 sample .dcm files (zip, 0.5 MB)</a>: CT abdomen, MRI with contrast, mammogram, PET. From TCIA:
-        <a v-for="s in samples.files" :key="s.file" :href="s.url" target="_blank" rel="noopener" class="src">{{ s.source.replace(' (TCIA)', '') }} ↗</a>
-      </p>
     </div>
   </div>
 </template>
@@ -120,7 +116,5 @@ const pick = (e: Event) => { const f = (e.target as HTMLInputElement).files?.[0]
 .files { display: flex; gap: 18px; margin-top: 10px; font-size: 15px; align-items: center; }
 .own { color: var(--accent); cursor: pointer; text-decoration: underline; }
 .own input { display: none; }
-.try { font-size: 13px; color: var(--ink-2); margin: 8px 0 0; line-height: 1.4; }
-.try .src { margin-left: 6px; white-space: nowrap; }
 .err { color: var(--bad); font-size: 15px; }
 </style>

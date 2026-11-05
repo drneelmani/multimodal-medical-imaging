@@ -54,4 +54,4 @@ For a presenter from computer science. Each slide's speaker notes have a **Backg
 
 ## Where the data and models come from
 
-Every slide that uses a dataset or model has clickable chips at the top right ("DATA …", "MODEL …"). Slide 32 links each model to its page and its training data. The DICOM viewer (slide 37) offers four sample `.dcm` files to test "Open your own .dcm", with their sources.
+Every slide that uses a dataset or model has clickable chips at the top right ("DATA …", "MODEL …"). Slide 32 links each model to its page and its training data. To test "Open your own .dcm" on the DICOM viewer (slide 37), download four sample files beforehand from https://drneelmani.github.io/multimodal-medical-imaging/dicom/samples/dicom-samples.zip (CT abdomen, MRI with contrast, mammogram, PET; each with its TCIA source in the zip's README).
