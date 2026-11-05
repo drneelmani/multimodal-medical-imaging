@@ -137,7 +137,7 @@ section: 4
 layout: artifact
 clicks: 2
 tag: real-data
-tagText: 'stored values of our patient’s CT and X-ray'
+tagText: 'stored values of our patient’s CT'
 sources: [dicomstandard, lidc2015data]
 links: [lidc]
 ---
@@ -150,14 +150,14 @@ links: [lidc]
 
 <!--
 **Time:** ~1.5 min
-**Objective:** Distinguish stored values, physical units and displayed grey levels.
+**Objective:** Show that the number stored in a CT file becomes a real unit (HU) only through a rule written in the file.
 **Background:** *Hounsfield unit (HU)*: CT's physical scale of how strongly tissue blocks X-rays, defined so that water = 0 and air = −1000. Typical values: lung about −900 to −500, fat −100 to −50, soft tissue and blood +20 to +80, contrast-filled vessels +150 to +400, bone +400 and above. Files store unsigned integers, so the header gives slope and intercept to convert back. Why it matters: the same tissue has the same HU on any calibrated CT, so a rule like 'fat is below −50' works everywhere. Values between about −500 and −150 at the edge of the lung are not a tissue: the pixel straddles air and tissue (the 'partial volume' effect); the slide labels them 'lung edge'. Zoom with the wheel or the + button to show the nodule's values.
-**Say:** Point anywhere on the scan to read the number stored in the file. At the centre of the nodule it is 1,107. [click] That stored number is not yet meaningful. The file tells us to multiply by 1 and subtract 1,024, which gives Hounsfield units: 83 here, which is soft tissue. Air is around −1000, water 0, bone several hundred. [click] And metadata can be wrong. Our X-ray file carries window settings that look copied from a CT. Apply them as written and the image turns white: the window covers −1,400 to 200, but this X-ray's stored values run from about 200 to 14,500, so almost every pixel is above the window and is drawn white. The box says so on the slide.
+**Say:** Point anywhere on the scan to read the number stored in the file. At the centre of the nodule it is 1,107. On its own, that number means nothing. [click] The file also stores a rule: multiply by 1 and subtract 1,024. The result is in Hounsfield units: 83, which is soft tissue. [click] On the scale, air is −1000, water 0, fat a little below zero, bone several hundred. The same tissue gives the same value on every CT scanner, which is why software and models can use fixed thresholds.
 **Example:** Like a thermometer reading that needs a conversion formula printed on its side.
 **Try / Notice:** Move the pointer over air, lung, the nodule and bone; watch the units change.
 **Ask:** If a model is fed stored values from one scanner and HU from another, what happens?
 **Caveat:** For CT the conversion gives physical units; MRI values have no standard units and vary between scanners.
-**Transition:** So which Hounsfield units should be black, and which white? That is windowing.
+**Transition:** A screen cannot show 4,000 different values. Which HU should be black and which white? That is windowing.
 **Sources:** dicomstandard — rescale slope and intercept, window tags; lidc2015data.
 -->
 
@@ -185,7 +185,7 @@ links: [lidc]
 **Example:** Like adjusting brightness and contrast, but in real units.
 **Try / Notice:** Drag Level and Width; watch the blue band on the histogram move over the tissue labels.
 **Ask:** Predict, then reveal: which window will show the lung nodule best?
-**Caveat:** Preset values vary between institutions; these are common choices.
+**Caveat:** Preset values vary between institutions; these are common choices. Window values stored in a file can also be wrong: our X-ray file carries CT lung-window values (−600 / 1600). Applied as written, the window covers −1,400 to 200, but the X-ray's stored values run from about 200 to 14,500, so the whole image is drawn white. Check the window before trusting it.
 **Transition:** One slice is one picture. CT is a whole volume.
 **Sources:** lidc2015data — the HU values.
 -->
